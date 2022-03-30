@@ -1,0 +1,15 @@
+- name: start prometheus-server
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - prometheus.service
+
+- name: restart prometheus-server
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - prometheus.service

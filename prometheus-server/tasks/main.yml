@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+# @Author: david
+# @Date:   2022-03-30T10:00:39+02:00
+# @Last modified by:   david
+# @Last modified time: 2022-03-30T21:15:47+02:00
+- include: server.yml

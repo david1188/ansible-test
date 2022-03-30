@@ -1,0 +1,660 @@
+#!/usr/bin/env python
+# @Author: david
+# @Date:   2022-03-30T14:17:02+02:00
+# @Last modified by:   david
+# @Last modified time: 2022-03-30T17:17:39+02:00
+
+
+
+alerting:
+  alertmanagers:
+  - scheme: http
+    static_configs:
+    - targets:
+      - 127.0.0.1:9093
+global:
+  evaluation_interval: 15s
+  scrape_interval: 15s
+rule_files:
+- /opt/prometheus/rules/alerting.rules
+scrape_configs:
+- job_name: prometheus
+  static_configs:
+  - targets:
+    - localhost:9090
+- job_name: grafana
+  static_configs:
+  - targets:
+    - localhost:80
+- file_sd_configs:
+  - files:
+    - /opt/prometheus/targets.yaml
+  job_name: overwritten-default
+  relabel_configs:
+  - regex: ([a-z]{2})([a-z]{3})-(d).*
+    replacement: development
+    source_labels:
+    - __address__
+    target_label: environment
+  - regex: ([a-z]{2})([a-z]{3})-(q).*
+    replacement: qa
+    source_labels:
+    - __address__
+    target_label: environment
+  - regex: ([a-z]{2})([a-z]{3})-(p).*
+    replacement: production
+    source_labels:
+    - __address__
+    target_label: environment
+  - regex: ([a-z]{2})([a-z]{3})-(s).*
+    replacement: staging
+    source_labels:
+    - __address__
+    target_label: environment
+  - regex: ([a-z]{2})([a-z]{3}).*
+    replacement: $2
+    source_labels:
+    - __address__
+    target_label: product
+  - regex: ^ue.*
+    replacement: eastus
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^ub.*
+    replacement: eastus2
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^nc.*
+    replacement: northcentralus
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^us.*
+    replacement: uksouth2
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^su.*
+    replacement: uksouth
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^uk.*
+    replacement: ukwest
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^uw.*
+    replacement: westus2
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^cc.*
+    replacement: canadacentral
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^ce.*
+    replacement: canadaeast
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^ae.*
+    replacement: australiaeast
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^as.*
+    replacement: australiasoutheast
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^fc.*
+    replacement: francecentral
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^fs.*
+    replacement: francesouth
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^gw.*
+    replacement: germanywestcentral
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ^gn.*
+    replacement: germanynorth
+    source_labels:
+    - __address__
+    target_label: location
+  - regex: ([a-z]{2})([a-z]{3})-([a-z]{2})([a-z]{3}).*
+    replacement: $4
+    source_labels:
+    - __address__
+    target_label: role
+  - regex: ([a-z]{2})([a-z]{3})-([a-z]{2})([a-z]{3})([a-z]).*
+    replacement: $5
+    source_labels:
+    - __address__
+    target_label: pod
+  - regex: (.*):([0-9]+)
+    replacement: $1
+    source_labels:
+    - __address__
+    target_label: instance
+{% if ansible_facts['region'] == 'northcentralus' or ansible_facts['region'] == 'eastus' %}
+- job_name: NMS-MSHealthReport
+  relabel_configs:
+  - regex: nms-ms-health-report-([a-z]{4})-.*
+    replacement: $1
+    source_labels:
+    - __address__
+    target_label: environment
+  scheme: https
+  static_configs:
+  - labels:
+      product: nms
+    targets:
+    - nms-ms-health-report-prod-us.nuancehdp.com:443
+{% endif %}
+{% if ansible_facts['region'] == 'eastus' and ansible_facts['environment'] == 'production' %}
+- job_name: azure_metrics_exporter
+  scrape_interval: 1m
+  static_configs:
+  - targets:
+    - localhost:9276
+{% endif %}
+{% if ansible_facts['region'] == 'northcentralus' or ansible_facts['region'] == 'eastus' %}
+- job_name: blackbox-nms-regional
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nms1.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms3.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-au1.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-au2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-ca1.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-ca2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-de1.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-de2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-fr1.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-fr2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-uk2.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-uk3.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-we-dmpe.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms1.nuance.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://connected.escriptionasp.ca/NMS/Platform/ConfigurationSvc/v1/Status
+- job_name: blackbox-nms-global
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nms.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-au.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-ca.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-de.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-fr.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-uk.nuancehdp.com/NMS/Platform/ConfigurationSvc/v1/Status
+    - https://nms-dpa.nuance.com/NMS/Platform/ConfigurationSvc/v1/Status
+- job_name: blackbox-sas-global
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://sas.nuancehdp.com/status
+    - https://nsa.nuancehdp.com/status
+    - https://sas-au.nuancehdp.com/status
+    - https://sas-ca.nuancehdp.com/status
+    - https://sas-de.nuancehdp.com/status
+    - https://sas-fr.nuancehdp.com/status
+    - https://sas-uk.nuancehdp.com/status
+    - https://sas-pso-us.nuancehdp.com/status
+    - https://sas-pso-ca.nuancehdp.com/status
+    - https://sas-pso-au.nuancehdp.com/status
+- job_name: blackbox-sas-regional
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://sas1.nuancehdp.com/status
+    - https://sas2.nuancehdp.com/status
+    - https://sas3.nuancehdp.com/status
+    - https://sas-au1.nuancehdp.com/status
+    - https://sas-au2.nuancehdp.com/status
+    - https://sas-ca1.nuancehdp.com/status
+    - https://sas-ca2.nuancehdp.com/status
+    - https://sas-de1.nuancehdp.com/status
+    - https://sas-de2.nuancehdp.com/status
+    - https://sas-fr1.nuancehdp.com/status
+    - https://sas-fr2.nuancehdp.com/status
+    - https://sas-uk2.nuancehdp.com/status
+    - https://sas-uk3.nuancehdp.com/status
+    - https://sas-pso-us1.nuancehdp.com/status
+    - https://sas-pso-us2.nuancehdp.com/status
+    - https://sas-pso-ca1.nuancehdp.com/status
+    - https://sas-pso-ca2.nuancehdp.com/status
+    - https://sas-dpa-us1.nuancehdp.com/status
+    - https://sas-dpa-us2.nuancehdp.com/status
+    - https://sas-pso-au1.nuancehdp.com/status
+    - https://sas-pso-au2.nuancehdp.com/status
+- job_name: blackbox-dmo-global
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://dragonmedicalone.nuance.com/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone.nuance.co.uk/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone.nuance.fr/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone.nuance.de/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone.nuance.net.au/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone.nuance.ca/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+- job_name: blackbox-dmo-regional
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://dragonmedicalone-ue1.nuance.com/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-nc1.nuance.com/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-fr1.nuance.fr/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-fr2.nuance.fr/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-de1.nuance.de/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-de2.nuance.de/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-au1.nuance.net.au/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-au2.nuance.net.au/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-ca1.nuance.ca/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+    - https://dragonmedicalone-ca2.nuance.ca/OneClick/index.htm?Id=d28c5400-bf41-40dd-b48f-77630844f9f0
+- job_name: blackbox-browsersdk
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://speechanywhere-prod-au.nuancehdp.com/mainline/scripts/Nuance.SpeechAnywhere.js
+    - https://speechanywhere-prod-ca.nuancehdp.com/mainline/scripts/Nuance.SpeechAnywhere.js
+    - https://speechanywhere-prod-fr.nuancehdp.com/mainline/scripts/Nuance.SpeechAnywhere.js
+    - https://speechanywhere-prod-uk.nuancehdp.com/mainline/scripts/Nuance.SpeechAnywhere.js
+    - https://speechanywhere-prod-wvb-us.nuancehdp.com/mainline/scripts/Nuance.SpeechAnywhere.js
+- job_name: blackbox-pmm-global
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://pmm.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-uk.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-fr.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-de.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-au.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-ca.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+- job_name: blackbox-pmm-regional
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_running_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://pmm1.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-uk2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-uk3.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-fr1.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-fr2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-de1.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-de2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-au1.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-au2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-ca1.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+    - https://pmm-ca2.nuancehdp.com/Nuance.healthcare.dmic.status/v1/status
+- job_name: blackbox-hap
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://ncc.nuance.com/UserSync/api/isAlive
+    - https://ncc.nuance.com/api/isAlive
+    - https://ncc.nuance.com/DataRetention/api/isAlive
+    - https://nms-ms-audit-reader-hc-prod-us.nuancehdp.com/isAlive
+    - https://nms-ms-clientversion-reader-hc-prod-us.nuancehdp.com/isAlive
+    - https://nms-ms-speechusage-reader-hc-prod-us.nuancehdp.com/isAlive
+    - https://ncc.nuance.com/version.json
+- job_name: blackbox-nmc
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nmc-australiaeast-production-1.nuancehdp.com/Home
+    - https://nmc-australiasoutheast-production-1.nuancehdp.com/Home
+    - https://nmc-canadacentral-production-1.nuancehdp.com/Home
+    - https://nmc-canadaeast-production-1.nuancehdp.com
+    - https://nms-we-dmpe.nuancehdp.com/nmchtml/Home
+    - https://nmc-eastus1-prod-1.nuancehdp.com/Home
+    - https://nmc-francecentral-production-1.nuancehdp.com/Home
+    - https://nmc-francesouth-production-1.nuancehdp.com/Home
+    - https://nmc-germanywestcentral-production-1.nuancehdp.com/Home
+    - https://nmc-germanywestcentral-production-2.nuancehdp.com/Home
+    - https://nmc-hc-prod-us.nuancehdp.com/Home
+    - https://nmc-dpa.nuance.com/Home
+    - https://nmc-westus1-prod-1.nuancehdp.com/Home
+    - https://nmc-uksouth-production-1.nuancehdp.com/Home
+    - https://nmc-ukwest-production-1.nuancehdp.com/Home
+- job_name: blackbox-centralauth
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nms-central-auth-federation-verification-hc-prod-eastus1.nuancehdp.com/HOME
+    - https://nms-central-auth-federation-verification-hc-prod-westus1.nuancehdp.com/HOME
+    - https://nms-central-auth-wrapper-hc-prod-eastus1.nuancehdp.com
+    - https://nms-central-auth-wrapper-hc-prod-westus1.nuancehdp.com
+- job_name: blackbox-dasub
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx_true_status
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://dasubscriber-eastus2-dp-prod.nuance.com/api/unityuserMgr/checkuserexistence/DAAdminGroup@nuance.com
+- job_name: blackbox-nuance-distributor
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nms-ecom-eastus1-hc-prod.nuancehdp.com/NuanceHdpDist/v1/IsAlive
+    - https://nms-ecom-westus1-hc-prod.nuancehdp.com/NuanceHdpDist/v1/IsAlive
+- job_name: blackbox-physicianportals
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://healthcareid.nuance.com
+- job_name: blackbox-nms-logananalyzer
+  metrics_path: /probe
+  params:
+    module:
+    - http_2xx
+  relabel_configs:
+  - regex: .*//(.*?)/.*
+    source_labels:
+    - __address__
+    target_label: base_url
+  - source_labels:
+    - __address__
+    target_label: __param_target
+  - source_labels:
+    - __param_target
+    target_label: instance
+  - replacement: 127.0.0.1:9115
+    target_label: __address__
+  static_configs:
+  - targets:
+    - https://nmsla.nuancehdp.com/Account/NMSLogin
+    - https://nmsla-au.nuancehdp.com/Account/NMSLogin
+    - https://nmsla-fr.nuancehdp.com/Account/NMSLogin
+    - https://nmsla-de.nuancehdp.com/Account/NMSLogin
+- job_name: nms-sql-replication-lag
+  metrics_path: /metrics
+  scheme: https
+  scrape_interval: 1m
+  static_configs:
+  - targets:
+    - nmsreplicationprom-prod.azurewebsites.net
+- job_name: pmm_hub_ue
+  metrics_path: /metrics
+  scheme: https
+  scrape_interval: 5m
+  static_configs:
+  - targets:
+    - pmm-exporter-prod-ue.azurewebsites.net
+- job_name: pmm_hub_nc
+  metrics_path: /metrics
+  scheme: https
+  scrape_interval: 5m
+  static_configs:
+  - targets:
+    - pmm-exporter-prod-nc.azurewebsites.net
+{% endif %}
+- job_name: pmm_log_exporter
+  metrics_path: /metrics
+  scheme: https
+  scrape_interval: 5m
+  scrape_timeout: 1m
+  static_configs:
+  - targets:
+{% if ansible_facts['region'] == 'northcentralus' or ansible_facts['region'] == 'eastus' %}
+    - pmm-hub-log-exporter-prod-us.azurewebsites.net
+{% elif ansible_facts['region'] == 'uksouth' or ansible_facts['region'] == 'ukwest' %}
+    - pmm-hub-log-exporter-prod-uk.azurewebsites.net
+{% elif ansible_facts['region'] == 'canadacentral' or ansible_facts['region'] == 'canadaeast' %}
+    - pmm-hub-log-exporter-prod-canada.azurewebsites.net
+{% elif ansible_facts['region'] == 'australiaeast' or ansible_facts['region'] == 'australiasoutheast' %}
+    - pmm-hub-log-exporter-prod-australia.azurewebsites.net
+{% elif ansible_facts['region'] == 'francecentral' or ansible_facts['region'] == 'francesouth' %}
+    - pmm-hub-log-exporter-prod-france.azurewebsites.net
+{% elif ansible_facts['region'] == 'germanywestcentral' or ansible_facts['region'] == 'germanynorth' %}
+    - pmm-hub-log-exporter-prod-germany.azurewebsites.net
+{% endif %}

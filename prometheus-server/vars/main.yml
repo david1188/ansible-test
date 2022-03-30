@@ -1,0 +1,19 @@
+user: prometheus
+group: prometheus
+homedir: /opt/prometheus
+
+prometheus:
+  service: prometheus
+  source: https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz
+  directory: prometheus-2.34.0.linux-amd64
+  install_directory: /opt/prometheus/bin
+  log_level: info
+  config_file: /opt/prometheus/prometheus.yaml
+
+storage:
+  retention: 17520h
+  path: /var/lib/prometheus/data
+  shrink_ratio: 0.3
+  heap_size: 37000000000
+  checkpoint_dirty_series_limit: 1000000
+  checkpoint_interval: 15m

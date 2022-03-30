@@ -1,0 +1,59 @@
+- name: install prometheus server
+  unarchive:
+    src: "{{ prometheus.source }}"
+    dest: "{{ prometheus.target_directory }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    extra_opts: [--strip-components=1]
+    remote_src: yes
+
+- name: deploy prometheus config file
+  template:
+    src: templates/prometheus.yaml.j2
+    dest: "{{ prometheus.config_file }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  notify:
+    - start prometheus-server
+
+- name: create service files
+  copy:
+    content: |
+      [Unit]
+      Description="Prometheus server"
+      Requires=network-online.target
+      After=network-online.target
+
+      [Service]
+      Type=simple
+      User={{ user }}
+      Group={{ group }}
+      Type=simple
+      RemainAfterExit=no
+      WorkingDirectory={{ prometheus.install_directory }}/{{ prometheus.directory }}
+      ExecStart={{ prometheus.install_directory }}/{{ prometheus.directory }}/prometheus -config.file={{ prometheus.config_file }} -log.level {{ prometheus.log_level }} -storage.local.retention {{ storage.retention }} -storage.local.path {{ storage.path }} -storage.local.series-file-shrink-ratio {{ storage.shrink_ratio }} -storage.local.target-heap-size {{ storage.heap_size }} -storage.local.checkpoint-dirty-series-limit {{ storage.checkpoint_dirty_series_limit }} -storage.local.checkpoint-interval {{ storage.checkpoint_interval }}
+      ExecReload=/bin/kill --signal HUP
+
+      KillMode=process
+      KillSignal=SIGTERM
+
+      Restart=on-failure
+      LimitNOFILE=65536
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/{{ prometheus.service }}.service
+    mode: 0644
+  notify:
+    - start prometheus-server
+
+- name: deploy alerting rules
+  template:
+    src: templates/alerting_rules.j2
+    dest: /opt/prometheus/rules/alerting.rules
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  notify:
+    - restart prometheus-server

@@ -1,0 +1,20 @@
+# This file is managed by Ansible. Manual changes will be overwritten.
+
+ALERT InstanceDown
+  IF up == 0
+  FOR 2m
+  LABELS {
+      severity = "page",
+      team = "devops",
+  }
+  ANNOTATIONS {
+      summary = "Instance {{ $labels.instance }} down",
+  }
+
+ALERT DiskFullIn4Hours
+  IF predict_linear(node_filesystem_free{job='node', device!='sunrpc'}[1h], 4*3600) < 0
+  FOR 5m
+  LABELS {
+      severity = "page",
+      team = "devops",
+  }
