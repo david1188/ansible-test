@@ -1,2 +1,7 @@
-- include: server.yml
-- include: alertmanager.yml
+- import_tasks: server.yml
+  tags:
+    - server
+
+- import_tasks: alertmanager.yml
+  tags:
+    - alertmanager
