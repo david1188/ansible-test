@@ -1,0 +1,382 @@
+{%- set sas_server_count = 110 %}
+{%- set sas_adaptation_count = 20 %}
+{%- set uw_nms_haproxy_count = 10 %}
+{%- set ue_nms_haproxy_count = 10 %}
+{%- set nc_nms_haproxy_count = 10 %}
+{%- set uw_nms_app_count = 9 %}
+{%- set ue_nms_app_count = 9 %}
+{%- set nc_nms_app_count = 9 %}
+{%- set nc_pmm_haproxy_count = 18 %}
+{%- set ue_pmm_haproxy_count = 18 %}
+{%- set nc_sas_haproxy_count = 24 %}
+{%- set ue_sas_haproxy_count = 24 %}
+{%- set uw_sas_haproxy_count = 24 %}
+
+- targets:
+  - ueinf-pvmgt0001:1234
+  - ncinf-pvmgt0001:1234
+  - uwinf-pvmgt0001.core.local:1234
+  labels:
+      job: 'DMSIndicatorsExporter'
+
+- targets:
+  - ncinf-pvmon0001:9100
+  - ncinf-pvntp0001:9100
+  - ncinf-pvslt0001:9100
+  - ncinf-pvprm0001:9100
+  - ncinf-pvsmt0001:9100
+  - ncinf-pvsumb001:9100
+  - ncinf-pvsumb002:9100
+  {%- for server in range(nc_pmm_haproxy_count) %}
+  - ncpmm-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  {%- for server in range(nc_sas_haproxy_count) %}
+  - ncsas-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  - ncpso-pvhapa001:9100
+  - ncpso-pvhapa002:9100
+  - ncdpa-pvhapa001:9100
+  - ncdpa-pvhapa002:9100
+  - ueinf-pvjmp0001:9100
+  - ueinf-pvmon0001:9100
+  - ueinf-pvntp0001:9100
+  - ueinf-pvprm0001:9100
+  - ueinf-pvslt0001:9100
+  - ueinf-pvsmt0001:9100
+  - ueinf-pvsumb001:9100
+  - ueinf-pvsumb002:9100
+  {%- for server in range(ue_pmm_haproxy_count) %}
+  - uepmm-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  {%- for server in range(ue_sas_haproxy_count) %}
+  - uesas-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  - uesec-pvpena001:9100
+  - uepso-pvhapa001:9100
+  - uepso-pvhapa002:9100
+  - uedpa-pvhapa001:9100
+  - uedpa-pvhapa002:9100
+  - uenhd-pvweba001:9100
+  - uedmo-pvweba001:9100
+  - uedmo-pvweba002:9100
+  - ncdmo-pvweba001:9100
+  - ncdmo-pvweba002:9100
+  - uwinf-pvmon0001.core.local:9100
+  - uwinf-pvslt0001.core.local:9100
+  - uwinf-pvsumb001.core.local:9100
+  - uwinf-pvsumb002.core.local:9100
+  {%- for server in range(uw_sas_haproxy_count) %}
+  - uwsas-pvhapa{{ '%03d' % loop.index }}.core.local:9100
+  {%- endfor %}
+  {%- for server in range(uw_nms_haproxy_count) %}
+  - uwnms-pvhapa{{ '%03d' % loop.index }}.core.local:9100
+  {%- endfor %}
+  {%- for server in range(ue_nms_haproxy_count) %}
+  - uenms-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  {%- for server in range(nc_nms_haproxy_count) %}
+  - ncnms-pvhapa{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  {%- for server in range(uw_nms_haproxy_count) %}
+  - uwnms-pvhapc{{ '%03d' % loop.index }}.core.local:9100
+  {%- endfor %}
+  {%- for server in range(ue_nms_haproxy_count) %}
+  - uenms-pvhapc{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  {%- for server in range(nc_nms_haproxy_count) %}
+  - ncnms-pvhapc{{ '%03d' % loop.index }}:9100
+  {%- endfor %}
+  - wn0-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
+  - wn1-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
+  - wn2-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
+  - wn3-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
+  labels:
+      job: 'node'
+      kernel: linux
+
+- targets:
+  {%- for server in range(nc_pmm_haproxy_count) %}
+  - ncpmm-pvhapa{{ '%03d' % loop.index }}:9101
+  {%- endfor %}
+  {%- for server in range(nc_sas_haproxy_count) %}
+  - ncsas-pvhapa{{ '%03d' % loop.index }}:9101
+  {%- endfor %}
+  - ncpso-pvhapa001:9101
+  - ncpso-pvhapa002:9101
+  - ncdpa-pvhapa001:9101
+  - ncdpa-pvhapa002:9101
+  {%- for server in range(ue_pmm_haproxy_count) %}
+  - uepmm-pvhapa{{ '%03d' % loop.index }}:9101
+  {%- endfor %}
+  {%- for server in range(ue_sas_haproxy_count) %}
+  - uesas-pvhapa{{ '%03d' % loop.index }}:9101
+  {%- endfor %}
+  - uepso-pvhapa001:9101
+  - uepso-pvhapa002:9101
+  - uedpa-pvhapa001:9101
+  - uedpa-pvhapa002:9101
+  {%- for server in range(uw_sas_haproxy_count) %}
+  - uwsas-pvhapa{{ '%03d' % loop.index }}:9101
+  {%- endfor %}
+  labels:
+      job: 'haproxy'
+
+- targets:
+  - ncinf-pvdir0001:9107
+  - ncinf-pvdir0002:9107
+  - ncinf-pvmgt0001:9107
+  {%- for server in range(uw_nms_app_count) %}
+  - uwnms-pvappa{{ '%03d' % loop.index }}.core.local:9107
+  {%- endfor %}
+  {%- for server in range(uw_nms_app_count) %}
+  - uwnms-pvappc{{ '%03d' % loop.index }}.core.local:9107
+  {%- endfor %}
+  {%- for server in range(ue_nms_app_count) %}
+  - uenms-pvappa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  {%- for server in range(ue_nms_app_count) %}
+  - uenms-pvappc{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  {%- for server in range(nc_nms_app_count) %}
+  - ncnms-pvappa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  {%- for server in range(nc_nms_app_count) %}
+  - ncnms-pvappc{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  - ncpmm-pvappa001:9107
+  - ncpmm-pvappa002:9107
+  - ncpmm-pvappa003:9107
+  - ncpmm-pvappa004:9107
+  - ncpmm-pvappa005:9107
+  - ncpmm-pvappa006:9107
+  - ncpmm-pvappa007:9107
+  - ncpmm-pvappa008:9107
+  - ncpmm-pvappa009:9107
+  - ncpmm-pvappa010:9107
+  - ncpmm-pvappa011:9107
+  - ncpmm-pvappa012:9107
+  - ncpmm-pvappa013:9107
+  - ncpmm-pvappa014:9107
+  - ncpmm-pvappa015:9107
+  - ncpmm-pvappa016:9107
+  - ncpmm-pvappa017:9107
+  - ncpmm-pvappa018:9107
+  - ncpmm-pvappa019:9107
+  - ncpmm-pvappa020:9107
+  - ncpmm-pvappa021:9107
+  - ncpmm-pvappa022:9107
+  - ncpmm-pvappa023:9107
+  - ncpmm-pvappa024:9107
+  - ncpmm-pvappa025:9107
+  - ncpmm-pvappa026:9107
+  - ncpmm-pvappa027:9107
+  {% for server in range(sas_server_count) %}
+  - ncsas-pvappa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  {%- for server in range(sas_adaptation_count) %}
+  - ncsas-pvadpa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  - ncpso-pvappa001:9107
+  - ncpso-pvappa002:9107
+  - ncdpa-pvappa001:9107
+  - ncdpa-pvappa002:9107
+  - ueinf-pvdir0001:9107
+  - ueinf-pvdir0002:9107
+  - ueinf-pvjmp0002:9107
+  - ueinf-pvmgt0001:9107
+  - uepmm-pvappa001:9107
+  - uepmm-pvappa002:9107
+  - uepmm-pvappa003:9107
+  - uepmm-pvappa004:9107
+  - uepmm-pvappa005:9107
+  - uepmm-pvappa006:9107
+  - uepmm-pvappa007:9107
+  - uepmm-pvappa008:9107
+  - uepmm-pvappa009:9107
+  - uepmm-pvappa010:9107
+  - uepmm-pvappa011:9107
+  - uepmm-pvappa012:9107
+  - uepmm-pvappa013:9107
+  - uepmm-pvappa014:9107
+  - uepmm-pvappa015:9107
+  - uepmm-pvappa016:9107
+  - uepmm-pvappa017:9107
+  - uepmm-pvappa018:9107
+  - uepmm-pvappa019:9107
+  - uepmm-pvappa020:9107
+  - uepmm-pvappa021:9107
+  - uepmm-pvappa022:9107
+  - uepmm-pvappa023:9107
+  - uepmm-pvappa024:9107
+  - uepmm-pvappa025:9107
+  - uepmm-pvappa026:9107
+  - uepmm-pvappa027:9107
+  - uepmm-pvappa028:9107
+  - uepmm-pvappa029:9107
+  - uepmm-pvappa030:9107
+  - uepmm-pvappa031:9107
+  - uepmm-pvappa032:9107
+  - uepmm-pvappa033:9107
+  {% for server in range(sas_server_count) %}
+  - uesas-pvappa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  {%- for server in range(sas_adaptation_count) %}
+  - uesas-pvadpa{{ '%03d' % loop.index }}:9107
+  {%- endfor %}
+  - uepso-pvappa001:9107
+  - uepso-pvappa002:9107
+  - uedpa-pvappa001:9107
+  - uedpa-pvappa002:9107
+  - uesas-pvwfpa001:9107
+  - uesas-pvwfpa002:9107
+  - uesas-pvwfpa003:9107
+  - uesas-pvwfpa004:9107
+  - uesas-pvwfpa005:9107
+  - uesas-pvwfpa006:9107
+  - uesas-pvwfpa007:9107
+  - uesas-pvwfpa008:9107
+  - ncsas-pvwfpa001:9107
+  - ncsas-pvwfpa002:9107
+  - ncsas-pvwfpa003:9107
+  - ncsas-pvwfpa004:9107
+  - ncsas-pvwfpa005:9107
+  - ncsas-pvwfpa006:9107
+  - ncsas-pvwfpa007:9107
+  - ncsas-pvwfpa008:9107
+  - uenms-pvwfpa001:9107
+  - ncnms-pvwfpa001:9107
+  - ueesc-pvwfsa001:9107
+  - ueesc-pvwfsa002:9107
+  - ueesc-pvedta001:9107
+  - ueesc-pvedta002:9107
+  - ueesc-pvedta003:9107
+  - ueesc-pvedta004:9107
+  - ueesc-pvedta005:9107
+  - ueesc-pvedta006:9107
+  - ueesc-pvedta007:9107
+  - ueesc-pvedta008:9107
+  - ueesc-pvedta009:9107
+  - ueesc-pvedta010:9107
+  - ueesc-pvedta011:9107
+  - ueesc-pvedta012:9107
+  - uwinf-pvdir0001.core.local:9107
+  - uwinf-pvdir0002.core.local:9107
+  - uwinf-pvjmp0001.core.local:9107
+  - uwinf-pvmgt0001.core.local:9107
+  - uwnms-pvwfpa001.core.local:9107
+  - uwsas-pvwfpa001.core.local:9107
+  - uwsas-pvwfpa002.core.local:9107
+  - uwsas-pvwfpa003.core.local:9107
+  - uwsas-pvwfpa004.core.local:9107
+  - uwsas-pvwfpa005.core.local:9107
+  {%- for server in range(sas_server_count) %}
+  - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9107
+  {%- endfor %}
+  {%- for server in range(sas_adaptation_count) %}
+  - uwsas-pvadpa{{ '%03d' % loop.index }}.core.local:9107
+  {%- endfor %}
+  labels:
+      job: 'scollector'
+      kernel: windows
+
+- targets:
+  {%- for server in range(uw_nms_haproxy_count) %}
+  - uwnms-pvhapa{{ '%03d' % loop.index }}.core.local:8404
+  {%- endfor %}
+  {%- for server in range(ue_nms_haproxy_count) %}
+  - uenms-pvhapa{{ '%03d' % loop.index }}:8404
+  {%- endfor %}
+  {%- for server in range(nc_nms_haproxy_count) %}
+  - ncnms-pvhapa{{ '%03d' % loop.index }}:8404
+  {%- endfor %}
+  {%- for server in range(uw_nms_haproxy_count) %}
+  - uwnms-pvhapc{{ '%03d' % loop.index }}.core.local:8404
+  {%- endfor %}
+  {%- for server in range(ue_nms_haproxy_count) %}
+  - uenms-pvhapc{{ '%03d' % loop.index }}:8404
+  {%- endfor %}
+  {%- for server in range(nc_nms_haproxy_count) %}
+  - ncnms-pvhapc{{ '%03d' % loop.index }}:8404
+  {%- endfor %}
+  - uwnms-svhapa001.core.local:8404
+  - uwnms-svhapa002.core.local:8404
+  - ncnms-svhapa001.core.local:8404
+  - ncnms-svhapa002.core.local:8404
+  - uenms-svhapa001.core.local:8404
+  - uenms-svhapa002.core.local:8404
+  labels:
+      job: 'haproxy2'
+
+- targets:
+  {%- for server in range(sas_server_count) %}
+  - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9112
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - uesas-pvappa{{ '%03d' % loop.index }}:9112
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - ncsas-pvappa{{ '%03d' % loop.index }}:9112
+  {%- endfor %}
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'adaptation'
+
+- targets:
+  {%- for server in range(sas_server_count) %}
+  - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9111
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - uesas-pvappa{{ '%03d' % loop.index }}:9111
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - ncsas-pvappa{{ '%03d' % loop.index }}:9111
+  {%- endfor %}
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'analytics'
+
+- targets:
+  {%- for server in range(sas_server_count) %}
+  - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9110
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - uesas-pvappa{{ '%03d' % loop.index }}:9110
+  {%- endfor %}
+  {%- for server in range(sas_server_count) %}
+  - ncsas-pvappa{{ '%03d' % loop.index }}:9110
+  {%- endfor %}
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'recognition'
+
+# Kafka US East Cluster hn0-ueinfp on port 9111 - 9114
+- targets:
+  - 10.220.214.19:9114
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn0-ueinfp'
+
+- targets:
+  - 10.220.214.19:9113
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn1-ueinfp'
+
+- targets:
+  - 10.220.214.19:9112
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn2-ueinfp'
+
+- targets:
+  - 10.220.214.19:9111
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn3-ueinfp'

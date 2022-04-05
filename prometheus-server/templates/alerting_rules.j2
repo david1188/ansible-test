@@ -1,6 +1,6 @@
 # This file is managed by Ansible. Manual changes will be overwritten.
 groups:
-- name: test
+- name: alerts
   rules:
 {% for alert in alerts %}
   - alert: {{ alert.name }}

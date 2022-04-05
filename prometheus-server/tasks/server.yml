@@ -16,6 +16,13 @@
     - "{{ prometheus.install_directory }}"
     - "{{ prometheus.rules_directory }}"
 
+- name: check prometheus version
+  shell: |
+    set -o pipefail
+    /opt/prometheus/bin/prometheus --version | awk 'NR==1{print $3}'
+  register: promver
+  changed_when: false
+
 - name: install prometheus server
   unarchive:
     src: "{{ prometheus.source }}"
@@ -24,6 +31,7 @@
     group: "{{ group }}"
     extra_opts: [--strip-components=1]
     remote_src: yes
+  when: promver.stdout != prometheus_version
 
 - name: deploy prometheus config file
   template:
@@ -33,7 +41,7 @@
     group: "{{ group }}"
     mode: 0644
   notify:
-    - start prometheus-server
+    - restart prometheus-server
 
 - name: deploy prometheus service file
   template:
@@ -43,7 +51,7 @@
     group: root
     mode: 0644
   notify:
-    - start prometheus-server
+    - restart prometheus-server
 
 - name: deploy alerting rules
   template:

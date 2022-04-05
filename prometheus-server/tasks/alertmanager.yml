@@ -1,3 +1,10 @@
+- name: check alertmanager version
+  shell: |
+    set -o pipefail
+    /opt/prometheus/bin/alertmanager --version | awk 'NR==1{print $3}'
+  register: alertver
+  changed_when: false
+
 - name: install prometheus alertmanager
   unarchive:
     src: "{{ alertmanager.source }}"
@@ -6,6 +13,7 @@
     group: "{{ group }}"
     extra_opts: [--strip-components=1]
     remote_src: yes
+  when: alertver.stdout != alertmanager_version
 
 - name: create alertmanager default config
   file:
@@ -13,6 +21,8 @@
     state: touch
     owner: "{{ user }}"
     group: "{{ group }}"
+    modification_time: preserve
+    access_time: preserve
     mode: 0644
 
 - name: create alertmanager log directory
@@ -34,7 +44,7 @@
     group: root
     mode: 0644
   notify:
-    - start alertmanager
+    - restart alertmanager
 
 - name: deploy alertmanager configuration
   template:

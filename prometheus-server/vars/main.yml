@@ -4,7 +4,7 @@ homedir: /opt/prometheus
 
 prometheus:
   service: prometheus
-  source: https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz
+  source: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz
   install_directory: /opt/prometheus/bin
   rules_directory: /opt/prometheus/rules
   log_level: info
@@ -21,7 +21,7 @@ storage:
 
 alertmanager:
   service: alertmanager
-  source: https://github.com/prometheus/alertmanager/releases/download/v0.24.0/alertmanager-0.24.0.linux-amd64.tar.gz
+  source: https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz
   install_directory: /opt/prometheus/bin
   textfile_directory: /opt/prometheus/textfiles
   log_directory: /opt/prometheus/log
@@ -30,9 +30,6 @@ alertmanager:
   config_file: /opt/prometheus/alertmanager/alertmanager.yaml
   data_directory: /opt/prometheus/alertmanager
   log_level: info
-
-groups:
-  - name: test
 
 alerts:
   - name: InstanceDown
