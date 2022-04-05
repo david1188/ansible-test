@@ -1,20 +1,24 @@
 # This file is managed by Ansible. Manual changes will be overwritten.
+groups:
+- name: test
+  rules:
+{% for alert in alerts %}
+  - alert: {{ alert.name }}
+    expr: {{ alert.expression }}
+    {% if 'duration' in alert -%}
+    for: {{ alert.duration }}
+    {% endif -%}
+    {% if 'labels' in alert -%}
+    labels:
+    {% for label in alert.labels -%}
+        {{ label.items()|first|first|indent(2, True) }}: {{ label.items()|first|last }}
+    {% endfor -%}
+    {% endif -%}
+    {% if 'annotations' in alert -%}
+    annotations:
+    {% for annotation in alert.annotations -%}
+        {{ annotation.items()|first|first|indent(2, True) }}: "{{ annotation.items()|first|last }}"
+    {% endfor %}
+    {% endif %}
 
-ALERT InstanceDown
-  IF up == 0
-  FOR 2m
-  LABELS {
-      severity = "page",
-      team = "devops",
-  }
-  ANNOTATIONS {
-      summary = "Instance {{ $labels.instance }} down",
-  }
-
-ALERT DiskFullIn4Hours
-  IF predict_linear(node_filesystem_free{job='node', device!='sunrpc'}[1h], 4*3600) < 0
-  FOR 5m
-  LABELS {
-      severity = "page",
-      team = "devops",
-  }
+{% endfor %}

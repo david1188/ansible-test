@@ -13,3 +13,19 @@
     enabled: yes
   with_items:
     - prometheus.service
+
+- name: start alertmanager
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - alertmanager.service
+
+- name: restart alertmanager
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - alertmanager.service

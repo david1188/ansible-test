@@ -1,0 +1,47 @@
+- name: install prometheus alertmanager
+  unarchive:
+    src: "{{ alertmanager.source }}"
+    dest: "{{ alertmanager.install_directory }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    extra_opts: [--strip-components=1]
+    remote_src: yes
+
+- name: create alertmanager default config
+  file:
+    path: /etc/default/alertmanager
+    state: touch
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+
+- name: create alertmanager log directory
+  file:
+    path: "{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    state: directory
+  with_items:
+    - "{{ alertmanager.log_directory }}"
+    - "{{ alertmanager.home_directory }}"
+    - "{{ alertmanager.template_directory }}"
+
+- name: deploy alertmanager service file
+  template:
+    src: templates/alertmanager.service.j2
+    dest: /etc/systemd/system/{{ alertmanager.service }}.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - start alertmanager
+
+- name: deploy alertmanager configuration
+  template:
+    src: templates/alertmanager.yaml.j2
+    dest: "{{ alertmanager.config_file }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  notify:
+    - restart alertmanager

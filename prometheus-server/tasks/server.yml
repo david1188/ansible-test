@@ -1,7 +1,25 @@
+- name: add prometheus group
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: add prometheus user
+  user:
+    name: "{{ user }}"
+    group: "{{ group }}"
+
+- name: create prometheus directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ prometheus.install_directory }}"
+    - "{{ prometheus.rules_directory }}"
+
 - name: install prometheus server
   unarchive:
     src: "{{ prometheus.source }}"
-    dest: "{{ prometheus.target_directory }}"
+    dest: "{{ prometheus.install_directory }}"
     owner: "{{ user }}"
     group: "{{ group }}"
     extra_opts: [--strip-components=1]
@@ -17,7 +35,7 @@
   notify:
     - start prometheus-server
 
-- name: create service files
+- name: deploy prometheus service file
   copy:
     content: |
       [Unit]
@@ -27,12 +45,11 @@
 
       [Service]
       Type=simple
-      User={{ user }}
-      Group={{ group }}
-      Type=simple
+      User=root
+      Group=root
       RemainAfterExit=no
-      WorkingDirectory={{ prometheus.install_directory }}/{{ prometheus.directory }}
-      ExecStart={{ prometheus.install_directory }}/{{ prometheus.directory }}/prometheus -config.file={{ prometheus.config_file }} -log.level {{ prometheus.log_level }} -storage.local.retention {{ storage.retention }} -storage.local.path {{ storage.path }} -storage.local.series-file-shrink-ratio {{ storage.shrink_ratio }} -storage.local.target-heap-size {{ storage.heap_size }} -storage.local.checkpoint-dirty-series-limit {{ storage.checkpoint_dirty_series_limit }} -storage.local.checkpoint-interval {{ storage.checkpoint_interval }}
+      WorkingDirectory={{ prometheus.install_directory }}
+      ExecStart={{ prometheus.install_directory }}/prometheus --config.file={{ prometheus.config_file }} --log.level {{ prometheus.log_level }} --storage.tsdb.retention.time {{ storage.retention }} --storage.tsdb.path {{ storage.path }}
       ExecReload=/bin/kill --signal HUP
 
       KillMode=process
