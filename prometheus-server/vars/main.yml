@@ -1,3 +1,5 @@
+site: "{{ ansible_facts['site'] }}"
+
 user: prometheus
 group: prometheus
 homedir: /opt/prometheus

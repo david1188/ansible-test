@@ -62,3 +62,13 @@
     mode: 0644
   notify:
     - restart prometheus-server
+
+- name: deploy {{ site }} config file
+  template:
+    src: templates/sites/{{ site }}_servers.j2
+    dest: /opt/prometheus/targets.yaml
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0644
+  notify:
+    - restart prometheus-server

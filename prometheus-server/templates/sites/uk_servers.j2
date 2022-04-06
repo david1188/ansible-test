@@ -1,5 +1,10 @@
 {%- set su_sas_app_count = 8 %}
 {%- set uk_sas_app_count = 8 %}
+{%- set su_sas_ply_count = 6 %}
+{%- set uk_sas_ply_count = 6 %}
+{%- set su_sas_rcd_count = 5 %}
+{%- set uk_sas_rcd_count = 5 %}
+
 
 - targets:
   - suinf-pvmgt0001:1234
@@ -136,17 +141,12 @@
   {% for server in range(su_sas_app_count) -%}
   - susas-pvappa{{ '%03d' % loop.index }}:9107
   {% endfor -%}
-  - susas-pvplya001:9107
-  - susas-pvplya002:9107
-  - susas-pvplya003:9107
-  - susas-pvplya004:9107
-  - susas-pvplya005:9107
-  - susas-pvplya006:9107
-  - susas-pvrcda001:9107
-  - susas-pvrcda002:9107
-  - susas-pvrcda003:9107
-  - susas-pvrcda004:9107
-  - susas-pvrcda005:9107
+  {% for server in range(su_sas_ply_count) -%}
+  - susas-pvplya{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(su_sas_rcd_count) -%}
+  - susas-pvrcda{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
   - susas-pvwfpa001:9107
   - susas-pvwfpa002:9107
   - susas-svappa001:9107
@@ -172,17 +172,12 @@
   {% for server in range(uk_sas_app_count) -%}
   - uksas-pvappa{{ '%03d' % loop.index }}:9107
   {% endfor -%}
-  - uksas-pvplya001:9107
-  - uksas-pvplya002:9107
-  - uksas-pvplya003:9107
-  - uksas-pvplya004:9107
-  - uksas-pvplya005:9107
-  - uksas-pvplya006:9107
-  - uksas-pvrcda001:9107
-  - uksas-pvrcda002:9107
-  - uksas-pvrcda003:9107
-  - uksas-pvrcda004:9107
-  - uksas-pvrcda005:9107
+  {% for server in range(uk_sas_ply_count) -%}
+  - uksas-pvplya{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(uk_sas_rcd_count) -%}
+  - uksas-pvrcda{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
   - uksas-pvwfpa001:9107
   - uksas-pvwfpa002:9107
   - uksas-svappa001:9107
@@ -271,31 +266,21 @@
   {% for server in range(su_sas_app_count) -%}
   - susas-pvappa{{ '%03d' % loop.index }}:9110
   {% endfor -%}
-  - susas-pvplya001:9110
-  - susas-pvplya002:9110
-  - susas-pvplya003:9110
-  - susas-pvplya004:9110
-  - susas-pvplya005:9110
-  - susas-pvplya006:9110
-  - susas-pvrcda001:9110
-  - susas-pvrcda002:9110
-  - susas-pvrcda003:9110
-  - susas-pvrcda004:9110
-  - susas-pvrcda005:9110
+  {% for server in range(su_sas_ply_count) -%}
+  - susas-pvplya{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
+  {% for server in range(su_sas_rcd_count) -%}
+  - susas-pvrcda{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
   {% for server in range(uk_sas_app_count) -%}
   - uksas-pvappa{{ '%03d' % loop.index }}:9110
   {% endfor -%}
-  - uksas-pvplya001:9110
-  - uksas-pvplya002:9110
-  - uksas-pvplya003:9110
-  - uksas-pvplya004:9110
-  - uksas-pvplya005:9110
-  - uksas-pvplya006:9110
-  - uksas-pvrcda001:9110
-  - uksas-pvrcda002:9110
-  - uksas-pvrcda003:9110
-  - uksas-pvrcda004:9110
-  - uksas-pvrcda005:9110
+  {% for server in range(uk_sas_ply_count) -%}
+  - uksas-pvplya{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
+  {% for server in range(uk_sas_rcd_count) -%}
+  - uksas-pvrcda{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'
@@ -305,31 +290,21 @@
   {% for server in range(su_sas_app_count) -%}
   - susas-pvappa{{ '%03d' % loop.index }}:9111
   {% endfor -%}
-  - susas-pvplya001:9111
-  - susas-pvplya002:9111
-  - susas-pvplya003:9111
-  - susas-pvplya004:9111
-  - susas-pvplya005:9111
-  - susas-pvplya006:9111
-  - susas-pvrcda001:9111
-  - susas-pvrcda002:9111
-  - susas-pvrcda003:9111
-  - susas-pvrcda004:9111
-  - susas-pvrcda005:9111
+  {% for server in range(su_sas_ply_count) -%}
+  - susas-pvplya{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
+  {% for server in range(su_sas_rcd_count) -%}
+  - susas-pvrcda{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
   {% for server in range(uk_sas_app_count) -%}
   - uksas-pvappa{{ '%03d' % loop.index }}:9111
   {% endfor -%}
-  - uksas-pvplya001:9111
-  - uksas-pvplya002:9111
-  - uksas-pvplya003:9111
-  - uksas-pvplya004:9111
-  - uksas-pvplya005:9111
-  - uksas-pvplya006:9111
-  - uksas-pvrcda001:9111
-  - uksas-pvrcda002:9111
-  - uksas-pvrcda003:9111
-  - uksas-pvrcda004:9111
-  - uksas-pvrcda005:9111
+  {% for server in range(uk_sas_ply_count) -%}
+  - uksas-pvplya{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
+  {% for server in range(uk_sas_rcd_count) -%}
+  - uksas-pvrcda{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'
@@ -339,31 +314,21 @@
   {% for server in range(su_sas_app_count) -%}
   - susas-pvappa{{ '%03d' % loop.index }}:9112
   {% endfor -%}
-  - susas-pvplya001:9112
-  - susas-pvplya002:9112
-  - susas-pvplya003:9112
-  - susas-pvplya004:9112
-  - susas-pvplya005:9112
-  - susas-pvplya006:9112
-  - susas-pvrcda001:9112
-  - susas-pvrcda002:9112
-  - susas-pvrcda003:9112
-  - susas-pvrcda004:9112
-  - susas-pvrcda005:9112
+  {% for server in range(su_sas_ply_count) -%}
+  - susas-pvplya{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
+  {% for server in range(su_sas_rcd_count) -%}
+  - susas-pvrcda{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
   {% for server in range(uk_sas_app_count) -%}
   - uksas-pvappa{{ '%03d' % loop.index }}:9112
   {% endfor -%}
-  - uksas-pvplya001:9112
-  - uksas-pvplya002:9112
-  - uksas-pvplya003:9112
-  - uksas-pvplya004:9112
-  - uksas-pvplya005:9112
-  - uksas-pvplya006:9112
-  - uksas-pvrcda001:9112
-  - uksas-pvrcda002:9112
-  - uksas-pvrcda003:9112
-  - uksas-pvrcda004:9112
-  - uksas-pvrcda005:9112
+  {% for server in range(uk_sas_ply_count) -%}
+  - uksas-pvplya{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
+  {% for server in range(uk_sas_rcd_count) -%}
+  - uksas-pvrcda{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'

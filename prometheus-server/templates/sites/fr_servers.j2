@@ -1,0 +1,167 @@
+{%- set nms_app_count = 3 %}
+{%- set sas_recognition_app_count = 10 %}
+{%- set sas_playback_app_count = 1 %}
+{%- set sas_recording_app_count = 1 %}
+{%- set pmm_app_count = 4 %}
+
+- targets:
+  - fcinf-pvmgt0001:1234
+  - fsinf-pvmgt0001:1234
+  labels:
+      job: 'danubeexporter'
+
+- targets:
+  - fcinf-pvmon0001:9100
+  - fcinf-pvprm0001:9100
+  - fcinf-pvslt0001:9100
+  - fcinf-dvslt0001:9100
+  - fcinf-pvvsta001:9100
+  - fcinf-pvvsta002:9100
+  - fcinf-pvsumb001:9100
+  - fcinf-pvsumb002:9100
+  - fcnms-pvhapa001:9100
+  - fcnms-pvhapa002:9100
+  - fcnms-pvhapc001:9100
+  - fcnms-pvhapc002:9100
+  - fcnms-svhapa001:9100
+  - fcnms-svhapa002:9100
+  - fcpmm-pvhapa001:9100
+  - fcpmm-pvhapa002:9100
+  - fcpmm-svhapa001:9100
+  - fcpmm-svhapa002:9100
+  - fcsas-pvhapa001:9100
+  - fcsas-pvhapa002:9100
+  - fcsas-svhapa001:9100
+  - fcsas-svhapa002:9100
+  - fcsas-pvweba001:9100
+  - fcsas-pvweba002:9100
+  - fcsas-svweba001:9100
+  - fcsas-svweba002:9100
+  - fsinf-pvslt0001:9100
+  - fsinf-dvslt0001:9100
+  - fsinf-pvmon0001:9100
+  - fsinf-pvprm0001:9100
+  - fsinf-pvvsta001:9100
+  - fsinf-pvvsta002:9100
+  - fsinf-pvsumb001:9100
+  - fsinf-pvsumb002:9100
+  - fsnms-pvhapa001:9100
+  - fsnms-pvhapa002:9100
+  - fsnms-pvhapc001:9100
+  - fsnms-pvhapc002:9100
+  - fsnms-svhapa001:9100
+  - fsnms-svhapa002:9100
+  - fspmm-pvhapa001:9100
+  - fspmm-pvhapa002:9100
+  - fspmm-svhapa001:9100
+  - fspmm-svhapa002:9100
+  - fssas-pvhapa001:9100
+  - fssas-pvhapa002:9100
+  - fssas-svhapa001:9100
+  - fssas-svhapa002:9100
+  - fssas-pvweba001:9100
+  - fssas-pvweba002:9100
+  - fssas-svweba001:9100
+  - fssas-svweba002:9100
+  labels:
+      job: 'node'
+      kernel: linux
+
+- targets:
+  - fcnms-pvhapa001:8404
+  - fcnms-pvhapa002:8404
+  - fcnms-pvhapc001:8404
+  - fcnms-pvhapc002:8404
+  - fcnms-svhapa001:8404
+  - fcnms-svhapa002:8404
+  - fcnms-svhapc001:8404
+  - fcnms-svhapc002:8404
+  - fcsas-pvhapa001:9101
+  - fcsas-pvhapa002:9101
+  - fcsas-svhapa001:9101
+  - fcsas-svhapa002:9101
+  - fcpmm-pvhapa001:9101
+  - fcpmm-pvhapa002:9101
+  - fcpmm-svhapa001:9101
+  - fcpmm-svhapa002:9101
+  - fsnms-pvhapa001:8404
+  - fsnms-pvhapa002:8404
+  - fsnms-pvhapc001:8404
+  - fsnms-pvhapc002:8404
+  - fsnms-svhapa001:8404
+  - fsnms-svhapa002:8404
+  - fspmm-pvhapa001:9101
+  - fspmm-pvhapa002:9101
+  - fspmm-svhapa001:9101
+  - fspmm-svhapa002:9101
+  - fssas-pvhapa001:9101
+  - fssas-pvhapa002:9101
+  - fssas-svhapa001:9101
+  - fssas-svhapa002:9101
+  labels:
+      job: 'haproxy'
+
+- targets:
+  - fcinf-pvdir0001:9107
+  - fcinf-pvdir0002:9107
+  - fcinf-pvsmt0001:9107
+  - fcinf-pvsmt0002:9107
+  - fcinf-pvjmp0001:9107
+  - fcinf-pvmgt0001:9107
+  - fcinf-pvwsus001:9107
+  {% for server in range(nms_server_count) -%}
+  - fcnms-pvappa{{ '%03d' % loop.index }}:9107
+  - fsnms-pvappa{{ '%03d' % loop.index }}:9107
+  - fcnms-pvappc{{ '%03d' % loop.index }}:9107
+  - fsnms-pvappc{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_recognition_server_count) -%}
+  - fcsas-pvappa{{ '%03d' % loop.index }}:9107
+  - fssas-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_playback_server_count) -%}
+  - fcsas-pvplya{{ '%03d' % loop.index }}:9107
+  - fssas-pvplya{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_recording_server_count) -%}
+  - fcsas-pvrcda{{ '%03d' % loop.index }}:9107
+  - fssas-pvrcda{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(pmm_server_count) -%}
+  - fcpmm-pvappa{{ '%03d' % loop.index }}:9107
+  - fspmm-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  - fcnms-svappa001:9107
+  - fcnms-svappa002:9107
+  - fcpmm-svappa001:9107
+  - fcpmm-svappa002:9107
+  - fcsas-svappa001:9107
+  - fcsas-svappa002:9107
+  - fcsas-svrcda001:9107
+  - fcsas-svplya001:9107
+  - fcnms-pvwfpa001:9107
+  - fcnms-svwfpa001:9107
+  - fcsas-pvwfpa001:9107
+  - fcsas-pvwfpa002:9107
+  - fcsas-svwfpa001:9107
+  - fsinf-pvdir0001:9107
+  - fsinf-pvdir0002:9107
+  - fsinf-pvsmt0001:9107
+  - fsinf-pvsmt0002:9107
+  - fsinf-pvmgt0001:9107
+  - fsnms-pvwfpa001:9107
+  - fsnms-svappa001:9107
+  - fsnms-svappa002:9107
+  - fsnms-svwfpa001:9107
+  - fspmm-svappa001:9107
+  - fspmm-svappa002:9107
+  - fssas-pvwfpa001:9107
+  - fssas-pvwfpa002:9107
+  - fssas-svappa001:9107
+  - fssas-svappa002:9107
+  - fssas-svrcda001:9107
+  - fssas-svplya001:9107
+  - fssas-svwfpa001:9107
+  labels:
+      job: 'scollector'
+      kernel: windows

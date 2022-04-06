@@ -6,11 +6,13 @@
 {%- set uw_nms_app_count = 9 %}
 {%- set ue_nms_app_count = 9 %}
 {%- set nc_nms_app_count = 9 %}
-{%- set nc_pmm_haproxy_count = 18 %}
-{%- set ue_pmm_haproxy_count = 18 %}
 {%- set nc_sas_haproxy_count = 24 %}
 {%- set ue_sas_haproxy_count = 24 %}
 {%- set uw_sas_haproxy_count = 24 %}
+{%- set nc_pmm_haproxy_count = 18 %}
+{%- set ue_pmm_haproxy_count = 18 %}
+{%- set nc_pmm_app_count = 27 %}
+{%- set ue_pmm_app_count = 33 %}
 
 - targets:
   - ueinf-pvmgt0001:1234
@@ -27,12 +29,12 @@
   - ncinf-pvsmt0001:9100
   - ncinf-pvsumb001:9100
   - ncinf-pvsumb002:9100
-  {%- for server in range(nc_pmm_haproxy_count) %}
+  {% for server in range(nc_pmm_haproxy_count) -%}
   - ncpmm-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
-  {%- for server in range(nc_sas_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_sas_haproxy_count) -%}
   - ncsas-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
+  {% endfor -%}
   - ncpso-pvhapa001:9100
   - ncpso-pvhapa002:9100
   - ncdpa-pvhapa001:9100
@@ -45,12 +47,12 @@
   - ueinf-pvsmt0001:9100
   - ueinf-pvsumb001:9100
   - ueinf-pvsumb002:9100
-  {%- for server in range(ue_pmm_haproxy_count) %}
+  {% for server in range(ue_pmm_haproxy_count) -%}
   - uepmm-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
-  {%- for server in range(ue_sas_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_sas_haproxy_count) -%}
   - uesas-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
+  {% endfor -%}
   - uesec-pvpena001:9100
   - uepso-pvhapa001:9100
   - uepso-pvhapa002:9100
@@ -65,27 +67,27 @@
   - uwinf-pvslt0001.core.local:9100
   - uwinf-pvsumb001.core.local:9100
   - uwinf-pvsumb002.core.local:9100
-  {%- for server in range(uw_sas_haproxy_count) %}
+  {% for server in range(uw_sas_haproxy_count) -%}
   - uwsas-pvhapa{{ '%03d' % loop.index }}.core.local:9100
-  {%- endfor %}
-  {%- for server in range(uw_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(uw_nms_haproxy_count) -%}
   - uwnms-pvhapa{{ '%03d' % loop.index }}.core.local:9100
-  {%- endfor %}
-  {%- for server in range(ue_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_haproxy_count) -%}
   - uenms-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
-  {%- for server in range(nc_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_haproxy_count) -%}
   - ncnms-pvhapa{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
-  {%- for server in range(uw_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(uw_nms_haproxy_count) -%}
   - uwnms-pvhapc{{ '%03d' % loop.index }}.core.local:9100
-  {%- endfor %}
-  {%- for server in range(ue_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_haproxy_count) -%}
   - uenms-pvhapc{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
-  {%- for server in range(nc_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_haproxy_count) -%}
   - ncnms-pvhapc{{ '%03d' % loop.index }}:9100
-  {%- endfor %}
+  {% endfor -%}
   - wn0-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
   - wn1-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
   - wn2-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9100
@@ -95,29 +97,29 @@
       kernel: linux
 
 - targets:
-  {%- for server in range(nc_pmm_haproxy_count) %}
+  {% for server in range(nc_pmm_haproxy_count) -%}
   - ncpmm-pvhapa{{ '%03d' % loop.index }}:9101
-  {%- endfor %}
-  {%- for server in range(nc_sas_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_sas_haproxy_count) -%}
   - ncsas-pvhapa{{ '%03d' % loop.index }}:9101
-  {%- endfor %}
+  {% endfor -%}
   - ncpso-pvhapa001:9101
   - ncpso-pvhapa002:9101
   - ncdpa-pvhapa001:9101
   - ncdpa-pvhapa002:9101
-  {%- for server in range(ue_pmm_haproxy_count) %}
+  {% for server in range(ue_pmm_haproxy_count) -%}
   - uepmm-pvhapa{{ '%03d' % loop.index }}:9101
-  {%- endfor %}
-  {%- for server in range(ue_sas_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_sas_haproxy_count) -%}
   - uesas-pvhapa{{ '%03d' % loop.index }}:9101
-  {%- endfor %}
+  {% endfor -%}
   - uepso-pvhapa001:9101
   - uepso-pvhapa002:9101
   - uedpa-pvhapa001:9101
   - uedpa-pvhapa002:9101
-  {%- for server in range(uw_sas_haproxy_count) %}
+  {% for server in range(uw_sas_haproxy_count) -%}
   - uwsas-pvhapa{{ '%03d' % loop.index }}:9101
-  {%- endfor %}
+  {% endfor -%}
   labels:
       job: 'haproxy'
 
@@ -125,57 +127,33 @@
   - ncinf-pvdir0001:9107
   - ncinf-pvdir0002:9107
   - ncinf-pvmgt0001:9107
-  {%- for server in range(uw_nms_app_count) %}
+  {% for server in range(uw_nms_app_count) -%}
   - uwnms-pvappa{{ '%03d' % loop.index }}.core.local:9107
-  {%- endfor %}
-  {%- for server in range(uw_nms_app_count) %}
+  {% endfor -%}
+  {% for server in range(uw_nms_app_count) -%}
   - uwnms-pvappc{{ '%03d' % loop.index }}.core.local:9107
-  {%- endfor %}
-  {%- for server in range(ue_nms_app_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_app_count) -%}
   - uenms-pvappa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  {%- for server in range(ue_nms_app_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_app_count) -%}
   - uenms-pvappc{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  {%- for server in range(nc_nms_app_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_app_count) -%}
   - ncnms-pvappa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  {%- for server in range(nc_nms_app_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_app_count) -%}
   - ncnms-pvappc{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  - ncpmm-pvappa001:9107
-  - ncpmm-pvappa002:9107
-  - ncpmm-pvappa003:9107
-  - ncpmm-pvappa004:9107
-  - ncpmm-pvappa005:9107
-  - ncpmm-pvappa006:9107
-  - ncpmm-pvappa007:9107
-  - ncpmm-pvappa008:9107
-  - ncpmm-pvappa009:9107
-  - ncpmm-pvappa010:9107
-  - ncpmm-pvappa011:9107
-  - ncpmm-pvappa012:9107
-  - ncpmm-pvappa013:9107
-  - ncpmm-pvappa014:9107
-  - ncpmm-pvappa015:9107
-  - ncpmm-pvappa016:9107
-  - ncpmm-pvappa017:9107
-  - ncpmm-pvappa018:9107
-  - ncpmm-pvappa019:9107
-  - ncpmm-pvappa020:9107
-  - ncpmm-pvappa021:9107
-  - ncpmm-pvappa022:9107
-  - ncpmm-pvappa023:9107
-  - ncpmm-pvappa024:9107
-  - ncpmm-pvappa025:9107
-  - ncpmm-pvappa026:9107
-  - ncpmm-pvappa027:9107
-  {% for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(nc_pmm_app_count) -%}
+  - ncpmm-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - ncsas-pvappa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  {%- for server in range(sas_adaptation_count) %}
+  {% endfor -%}
+  {% for server in range(sas_adaptation_count) -%}
   - ncsas-pvadpa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
+  {% endfor -%}
   - ncpso-pvappa001:9107
   - ncpso-pvappa002:9107
   - ncdpa-pvappa001:9107
@@ -184,45 +162,15 @@
   - ueinf-pvdir0002:9107
   - ueinf-pvjmp0002:9107
   - ueinf-pvmgt0001:9107
-  - uepmm-pvappa001:9107
-  - uepmm-pvappa002:9107
-  - uepmm-pvappa003:9107
-  - uepmm-pvappa004:9107
-  - uepmm-pvappa005:9107
-  - uepmm-pvappa006:9107
-  - uepmm-pvappa007:9107
-  - uepmm-pvappa008:9107
-  - uepmm-pvappa009:9107
-  - uepmm-pvappa010:9107
-  - uepmm-pvappa011:9107
-  - uepmm-pvappa012:9107
-  - uepmm-pvappa013:9107
-  - uepmm-pvappa014:9107
-  - uepmm-pvappa015:9107
-  - uepmm-pvappa016:9107
-  - uepmm-pvappa017:9107
-  - uepmm-pvappa018:9107
-  - uepmm-pvappa019:9107
-  - uepmm-pvappa020:9107
-  - uepmm-pvappa021:9107
-  - uepmm-pvappa022:9107
-  - uepmm-pvappa023:9107
-  - uepmm-pvappa024:9107
-  - uepmm-pvappa025:9107
-  - uepmm-pvappa026:9107
-  - uepmm-pvappa027:9107
-  - uepmm-pvappa028:9107
-  - uepmm-pvappa029:9107
-  - uepmm-pvappa030:9107
-  - uepmm-pvappa031:9107
-  - uepmm-pvappa032:9107
-  - uepmm-pvappa033:9107
-  {% for server in range(sas_server_count) %}
+  {% for server in range(ue_pmm_app_count) -%}
+  - uepmm-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - uesas-pvappa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
-  {%- for server in range(sas_adaptation_count) %}
+  {% endfor -%}
+  {% for server in range(sas_adaptation_count) -%}
   - uesas-pvadpa{{ '%03d' % loop.index }}:9107
-  {%- endfor %}
+  {% endfor -%}
   - uepso-pvappa001:9107
   - uepso-pvappa002:9107
   - uedpa-pvappa001:9107
@@ -269,35 +217,35 @@
   - uwsas-pvwfpa003.core.local:9107
   - uwsas-pvwfpa004.core.local:9107
   - uwsas-pvwfpa005.core.local:9107
-  {%- for server in range(sas_server_count) %}
+  {% for server in range(sas_server_count) -%}
   - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9107
-  {%- endfor %}
-  {%- for server in range(sas_adaptation_count) %}
+  {% endfor -%}
+  {% for server in range(sas_adaptation_count) -%}
   - uwsas-pvadpa{{ '%03d' % loop.index }}.core.local:9107
-  {%- endfor %}
+  {% endfor -%}
   labels:
       job: 'scollector'
       kernel: windows
 
 - targets:
-  {%- for server in range(uw_nms_haproxy_count) %}
+  {% for server in range(uw_nms_haproxy_count) -%}
   - uwnms-pvhapa{{ '%03d' % loop.index }}.core.local:8404
-  {%- endfor %}
-  {%- for server in range(ue_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_haproxy_count) -%}
   - uenms-pvhapa{{ '%03d' % loop.index }}:8404
-  {%- endfor %}
-  {%- for server in range(nc_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_haproxy_count) -%}
   - ncnms-pvhapa{{ '%03d' % loop.index }}:8404
-  {%- endfor %}
-  {%- for server in range(uw_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(uw_nms_haproxy_count) -%}
   - uwnms-pvhapc{{ '%03d' % loop.index }}.core.local:8404
-  {%- endfor %}
-  {%- for server in range(ue_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(ue_nms_haproxy_count) -%}
   - uenms-pvhapc{{ '%03d' % loop.index }}:8404
-  {%- endfor %}
-  {%- for server in range(nc_nms_haproxy_count) %}
+  {% endfor -%}
+  {% for server in range(nc_nms_haproxy_count) -%}
   - ncnms-pvhapc{{ '%03d' % loop.index }}:8404
-  {%- endfor %}
+  {% endfor -%}
   - uwnms-svhapa001.core.local:8404
   - uwnms-svhapa002.core.local:8404
   - ncnms-svhapa001.core.local:8404
@@ -308,45 +256,45 @@
       job: 'haproxy2'
 
 - targets:
-  {%- for server in range(sas_server_count) %}
+  {% for server in range(sas_server_count) -%}
   - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9112
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - uesas-pvappa{{ '%03d' % loop.index }}:9112
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - ncsas-pvappa{{ '%03d' % loop.index }}:9112
-  {%- endfor %}
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'
       serviceID: 'adaptation'
 
 - targets:
-  {%- for server in range(sas_server_count) %}
+  {% for server in range(sas_server_count) -%}
   - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9111
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - uesas-pvappa{{ '%03d' % loop.index }}:9111
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - ncsas-pvappa{{ '%03d' % loop.index }}:9111
-  {%- endfor %}
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'
       serviceID: 'analytics'
 
 - targets:
-  {%- for server in range(sas_server_count) %}
+  {% for server in range(sas_server_count) -%}
   - uwsas-pvappa{{ '%03d' % loop.index }}.core.local:9110
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - uesas-pvappa{{ '%03d' % loop.index }}:9110
-  {%- endfor %}
-  {%- for server in range(sas_server_count) %}
+  {% endfor -%}
+  {% for server in range(sas_server_count) -%}
   - ncsas-pvappa{{ '%03d' % loop.index }}:9110
-  {%- endfor %}
+  {% endfor -%}
   labels:
       job: 'filebeat'
       env: 'production'
