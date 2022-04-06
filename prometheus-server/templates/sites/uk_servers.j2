@@ -1,0 +1,406 @@
+{%- set su_sas_app_count = 8 %}
+{%- set uk_sas_app_count = 8 %}
+
+- targets:
+  - suinf-pvmgt0001:1234
+  - ukinf-pvmgt0001:1234
+  labels:
+      job: 'danubeexporter'
+
+- targets:
+  - suinf-pvmon0001:9100
+  - suinf-pvprm0001:9100
+  - suinf-pvslt0001:9100
+  - suinf-dvslt0001:9100
+  - suinf-pvvsta001:9100
+  - suinf-pvvsta002:9100
+  - sunms-pvhapa001:9100
+  - sunms-pvhapa002:9100
+  - sunms-pvhapc001:9100
+  - sunms-pvhapc002:9100
+  - uknms-pvhapc001:9100
+  - uknms-pvhapc002:9100
+  - sunms-svhapa001:9100
+  - sunms-svhapa002:9100
+  - sunms-svhapc001:9100
+  - sunms-svhapc002:9100
+  - supmm-pvhapa001:9100
+  - supmm-pvhapa002:9100
+  - supmm-svhapa001:9100
+  - supmm-svhapa002:9100
+  - susas-pvhapa001:9100
+  - susas-pvhapa002:9100
+  - susas-pvhapa003:9100
+  - susas-svhapa001:9100
+  - susas-svhapa002:9100
+  - sudmo-pvweba001:9100
+  - sudmo-pvweba002:9100
+  - sudmo-svweba001:9100
+  - sudmo-svweba002:9100
+  - ukinf-dvslt0001:9100
+  - ukinf-pvslt0001:9100
+  - ukinf-pvvsta001:9100
+  - ukinf-pvvsta002:9100
+  - ukinf-pvsmt0001:9100
+  - uknms-pvhapa001:9100
+  - uknms-pvhapa002:9100
+  - uknms-svhapa001:9100
+  - uknms-svhapa002:9100
+  - ukpmm-pvhapa001:9100
+  - ukpmm-pvhapa002:9100
+  - ukpmm-svhapa001:9100
+  - ukpmm-svhapa002:9100
+  - uksas-pvhapa001:9100
+  - uksas-pvhapa002:9100
+  - uksas-pvhapa003:9100
+  - uksas-svhapa001:9100
+  - uksas-svhapa002:9100
+  labels:
+      job: 'node'
+      kernel: linux
+
+- targets:
+  - susas-pvhapa001:9101
+  - susas-pvhapa002:9101
+  - susas-pvhapa003:9101
+  - susas-svhapa001:9101
+  - susas-svhapa002:9101
+  - supmm-pvhapa001:9101
+  - supmm-pvhapa002:9101
+  - supmm-svhapa001:9101
+  - supmm-svhapa002:9101
+  - ukpmm-pvhapa001:9101
+  - ukpmm-pvhapa002:9101
+  - ukpmm-svhapa001:9101
+  - ukpmm-svhapa002:9101
+  - uksas-pvhapa001:9101
+  - uksas-pvhapa002:9101
+  - uksas-pvhapa003:9101
+  - uksas-svhapa001:9101
+  - uksas-svhapa002:9101
+  labels:
+      job: 'haproxy'
+
+- targets:
+  - uknms-pvhapa001.core.local:8404
+  - uknms-pvhapa002.core.local:8404
+  - uknms-svhapa001.core.local:8404
+  - uknms-svhapa002.core.local:8404
+  - uknms-pvhapc001.core.local:8404
+  - uknms-pvhapc002.core.local:8404
+  - uknms-svhapc001.core.local:8404
+  - uknms-svhapc002.core.local:8404
+  - sunms-pvhapa001.core.local:8404
+  - sunms-pvhapa002.core.local:8404
+  - sunms-svhapa001.core.local:8404
+  - sunms-svhapa002.core.local:8404
+  - sunms-pvhapc001.core.local:8404
+  - sunms-pvhapc002.core.local:8404
+  - sunms-svhapc001.core.local:8404
+  - sunms-svhapc002.core.local:8404
+  labels:
+      job: 'haproxy2'
+
+- targets:
+  - suinf-pvdir0001:9107
+  - suinf-pvdir0002:9107
+  - suinf-pvmfa0001:9107
+  - suinf-pvmfa0002:9107
+  - suinf-pvmfw0001:9107
+  - suinf-pvmfw0002:9107
+  - suinf-pvmgt0001:9107
+  - suinf-pvsmt0001:9107
+  - suinf-pvsmt0002:9107
+  - suinf-pvwsus001:9107
+  - sunms-pvappa001:9107
+  - sunms-pvappa002:9107
+  - sunms-pvappa003:9107
+  - sunms-pvappc001:9107
+  - sunms-pvappc002:9107
+  - sunms-pvappc003:9107
+  - uknms-pvappc001:9107
+  - uknms-pvappc002:9107
+  - uknms-pvappc003:9107
+  - sunms-pvwfpa001:9107
+  - sunms-svappa001:9107
+  - sunms-svappa002:9107
+  - sunms-svappc001:9107
+  - sunms-svappc002:9107
+  - sunms-svwfpa001:9107
+  - supmm-pvappa001:9107
+  - supmm-pvappa002:9107
+  - supmm-pvappa003:9107
+  - supmm-pvappa004:9107
+  - supmm-svappa001:9107
+  - supmm-svappa002:9107
+  {% for server in range(su_sas_app_count) -%}
+  - susas-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  - susas-pvplya001:9107
+  - susas-pvplya002:9107
+  - susas-pvplya003:9107
+  - susas-pvplya004:9107
+  - susas-pvplya005:9107
+  - susas-pvplya006:9107
+  - susas-pvrcda001:9107
+  - susas-pvrcda002:9107
+  - susas-pvrcda003:9107
+  - susas-pvrcda004:9107
+  - susas-pvrcda005:9107
+  - susas-pvwfpa001:9107
+  - susas-pvwfpa002:9107
+  - susas-svappa001:9107
+  - susas-svappa002:9107
+  - susas-svappa003:9107
+  - susas-svappa004:9107
+  - ukinf-pvdir0001:9107
+  - ukinf-pvdir0002:9107
+  - ukinf-pvmgt0001:9107
+  - uknms-pvappa001:9107
+  - uknms-pvappa002:9107
+  - uknms-pvappa003:9107
+  - uknms-pvwfpa001:9107
+  - uknms-svappa001:9107
+  - uknms-svappa002:9107
+  - uknms-svwfpa001:9107
+  - ukpmm-pvappa001:9107
+  - ukpmm-pvappa002:9107
+  - ukpmm-pvappa003:9107
+  - ukpmm-pvappa004:9107
+  - ukpmm-svappa001:9107
+  - ukpmm-svappa002:9107
+  {% for server in range(uk_sas_app_count) -%}
+  - uksas-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  - uksas-pvplya001:9107
+  - uksas-pvplya002:9107
+  - uksas-pvplya003:9107
+  - uksas-pvplya004:9107
+  - uksas-pvplya005:9107
+  - uksas-pvplya006:9107
+  - uksas-pvrcda001:9107
+  - uksas-pvrcda002:9107
+  - uksas-pvrcda003:9107
+  - uksas-pvrcda004:9107
+  - uksas-pvrcda005:9107
+  - uksas-pvwfpa001:9107
+  - uksas-pvwfpa002:9107
+  - uksas-svappa001:9107
+  - uksas-svappa002:9107
+  - uksas-svplya001:9107
+  - uksas-svrcda001:9107
+  - uksas-svwfpa001:9107
+  - uksas-svwfpa002:9107
+  labels:
+      job: 'scollector'
+      kernel: windows
+
+- targets:
+  - susas-svappa001:9110
+  - susas-svappa002:9110
+  - uksas-svappa001:9110
+  - uksas-svappa002:9110
+  - uksas-svplya001:9110
+  - uksas-svrcda001:9110
+  labels:
+      job: 'filebeat'
+      env: 'staging'
+      serviceID: 'recognition'
+
+- targets:
+  - susas-svappa001:9111
+  - susas-svappa002:9111
+  - uksas-svappa001:9111
+  - uksas-svappa002:9111
+  - uksas-svplya001:9111
+  - uksas-svrcda001:9111
+  labels:
+      job: 'filebeat'
+      env: 'staging'
+      serviceID: 'analytics'
+
+- targets:
+  - susas-svappa001:9112
+  - susas-svappa002:9112
+  - uksas-svappa001:9112
+  - uksas-svappa002:9112
+  - uksas-svplya001:9112
+  - uksas-svrcda001:9112
+  labels:
+      job: 'filebeat'
+      env: 'staging'
+      serviceID: 'adaptation'
+
+# Kafka Staging Monitoring hn0-uksstg on port 9111 - 9114
+- targets:
+  - 10.23.42.149:9111
+  labels:
+      job: 'kafka'
+      env: 'staging'
+      broker: 'wn0-uksstg'
+
+- targets:
+  - 10.23.42.149:9112
+  labels:
+      job: 'kafka'
+      env: 'staging'
+      broker: 'wn1-uksstg'
+
+- targets:
+  - 10.23.42.149:9113
+  labels:
+      job: 'kafka'
+      env: 'staging'
+      broker: 'wn2-uksstg'
+
+- targets:
+  - 10.23.42.149:9114
+  labels:
+      job: 'kafka'
+      env: 'staging'
+      broker: 'wn3-uksstg'
+
+# Logan vector ACI monitoring
+- targets:
+  - 10.23.43.5:9598
+  labels:
+      job: 'vector'
+      env: 'staging'
+
+- targets:
+  {% for server in range(su_sas_app_count) -%}
+  - susas-pvappa{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
+  - susas-pvplya001:9110
+  - susas-pvplya002:9110
+  - susas-pvplya003:9110
+  - susas-pvplya004:9110
+  - susas-pvplya005:9110
+  - susas-pvplya006:9110
+  - susas-pvrcda001:9110
+  - susas-pvrcda002:9110
+  - susas-pvrcda003:9110
+  - susas-pvrcda004:9110
+  - susas-pvrcda005:9110
+  {% for server in range(uk_sas_app_count) -%}
+  - uksas-pvappa{{ '%03d' % loop.index }}:9110
+  {% endfor -%}
+  - uksas-pvplya001:9110
+  - uksas-pvplya002:9110
+  - uksas-pvplya003:9110
+  - uksas-pvplya004:9110
+  - uksas-pvplya005:9110
+  - uksas-pvplya006:9110
+  - uksas-pvrcda001:9110
+  - uksas-pvrcda002:9110
+  - uksas-pvrcda003:9110
+  - uksas-pvrcda004:9110
+  - uksas-pvrcda005:9110
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'recognition'
+
+- targets:
+  {% for server in range(su_sas_app_count) -%}
+  - susas-pvappa{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
+  - susas-pvplya001:9111
+  - susas-pvplya002:9111
+  - susas-pvplya003:9111
+  - susas-pvplya004:9111
+  - susas-pvplya005:9111
+  - susas-pvplya006:9111
+  - susas-pvrcda001:9111
+  - susas-pvrcda002:9111
+  - susas-pvrcda003:9111
+  - susas-pvrcda004:9111
+  - susas-pvrcda005:9111
+  {% for server in range(uk_sas_app_count) -%}
+  - uksas-pvappa{{ '%03d' % loop.index }}:9111
+  {% endfor -%}
+  - uksas-pvplya001:9111
+  - uksas-pvplya002:9111
+  - uksas-pvplya003:9111
+  - uksas-pvplya004:9111
+  - uksas-pvplya005:9111
+  - uksas-pvplya006:9111
+  - uksas-pvrcda001:9111
+  - uksas-pvrcda002:9111
+  - uksas-pvrcda003:9111
+  - uksas-pvrcda004:9111
+  - uksas-pvrcda005:9111
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'analytics'
+
+- targets:
+  {% for server in range(su_sas_app_count) -%}
+  - susas-pvappa{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
+  - susas-pvplya001:9112
+  - susas-pvplya002:9112
+  - susas-pvplya003:9112
+  - susas-pvplya004:9112
+  - susas-pvplya005:9112
+  - susas-pvplya006:9112
+  - susas-pvrcda001:9112
+  - susas-pvrcda002:9112
+  - susas-pvrcda003:9112
+  - susas-pvrcda004:9112
+  - susas-pvrcda005:9112
+  {% for server in range(uk_sas_app_count) -%}
+  - uksas-pvappa{{ '%03d' % loop.index }}:9112
+  {% endfor -%}
+  - uksas-pvplya001:9112
+  - uksas-pvplya002:9112
+  - uksas-pvplya003:9112
+  - uksas-pvplya004:9112
+  - uksas-pvplya005:9112
+  - uksas-pvplya006:9112
+  - uksas-pvrcda001:9112
+  - uksas-pvrcda002:9112
+  - uksas-pvrcda003:9112
+  - uksas-pvrcda004:9112
+  - uksas-pvrcda005:9112
+  labels:
+      job: 'filebeat'
+      env: 'production'
+      serviceID: 'adaptation'
+
+# Kafka Production Monitoring hn0-uksprd on port 9111 - 9114
+- targets:
+  - 10.23.38.146:9111
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn0-uksprd'
+
+- targets:
+  - 10.23.38.146:9112
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn1-uksprd'
+
+- targets:
+  - 10.23.38.146:9113
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn2-uksprd'
+
+- targets:
+  - 10.23.38.146:9114
+  labels:
+      job: 'kafka'
+      env: 'production'
+      broker: 'wn3-uksprd'
+
+# Logan vector ACI monitoring
+- targets:
+  - 10.23.39.5:9598
+  labels:
+      job: 'vector'
+      env: 'production'
