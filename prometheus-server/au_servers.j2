@@ -1,0 +1,223 @@
+{%- set nms_app_count = 2 %}
+{%- set sas_recognition_app_count = 3 %}
+{%- set sas_playback_app_count = 1 %}
+{%- set sas_recording_app_count = 1 %}
+{%- set pmm_app_count = 4 %}
+
+- targets:
+  - aeinf-pvmgt0001:1234
+  - asinf-pvmgt0001:1234
+  labels:
+      job: 'danubeexporter'
+
+    - targets:
+      - aeinf-pvmon0001:9100
+      - aeinf-pvprm0001:9100
+      - aeinf-pvslt0001:9100
+      - aeinf-dvslt0001:9100
+      - aeinf-pvvsta001:9100
+      - aeinf-pvvsta002:9100
+      - aeinf-pvsumb001:9100
+      - aeinf-pvsumb002:9100
+      - aenms-pvhapa001:9100
+      - aenms-pvhapa002:9100
+      - aenms-pvhapa003:9100
+      - aenms-pvhapa004:9100
+      - aenms-pvhapc001:9100
+      - aenms-pvhapc002:9100
+      - aenms-svhapa001:9100
+      - aenms-svhapa002:9100
+      - aepmm-pvhapa001:9100
+      - aepmm-pvhapa002:9100
+      - aepmm-pvhapc001:9100
+      - aepmm-pvhapc002:9100
+      - aepmm-svhapa001:9100
+      - aepmm-svhapa002:9100
+      - aesas-pvhapa001:9100
+      - aesas-pvhapa002:9100
+      - aesas-pvhapc001:9100
+      - aesas-pvhapc002:9100
+      - aesas-svhapa001:9100
+      - aesas-svhapa002:9100
+      - aesas-pvweba001:9100
+      - aesas-pvweba002:9100
+      - aesas-svweba001:9100
+      - aesas-svweba002:9100
+      - asinf-pvslt0001:9100
+      - asinf-dvslt0001:9100
+      - asinf-pvmon0001:9100
+      - asinf-pvprm0001:9100
+      - asinf-pvvsta001:9100
+      - asinf-pvvsta002:9100
+      - asinf-pvsumb001:9100
+      - asinf-pvsumb002:9100
+      - asnms-pvhapa001:9100
+      - asnms-pvhapa002:9100
+      - asnms-pvhapa003:9100
+      - asnms-pvhapa004:9100
+      - asnms-pvhapc001:9100
+      - asnms-pvhapc002:9100
+      - asnms-svhapa001:9100
+      - asnms-svhapa002:9100
+      - aspmm-pvhapa001:9100
+      - aspmm-pvhapa002:9100
+      - aspmm-pvhapc001:9100
+      - aspmm-pvhapc002:9100
+      - aspmm-svhapa001:9100
+      - aspmm-svhapa002:9100
+      - assas-pvhapa001:9100
+      - assas-pvhapa002:9100
+      - assas-pvhapc001:9100
+      - assas-pvhapc002:9100
+      - assas-svhapa001:9100
+      - assas-svhapa002:9100
+      - assas-pvweba001:9100
+      - assas-pvweba002:9100
+      - assas-svweba001:9100
+      - assas-svweba002:9100
+      - aepso-pvhapa001:9100
+      - aepso-pvhapa002:9100
+      - aepso-pvhapc001:9100
+      - aepso-pvhapc002:9100
+      - aspso-pvhapa001:9100
+      - aspso-pvhapa002:9100
+      - aspso-pvhapc001:9100
+      - aspso-pvhapc002:9100
+      - aepso-svhapa001:9100
+      - aepso-svhapa002:9100
+      - aspso-svhapa001:9100
+      - aspso-svhapa002:9100
+      labels:
+          job: 'node'
+          kernel: linux
+
+    - targets:
+      - aenms-pvhapa001:8404
+      - aenms-pvhapa002:8404
+      - aenms-pvhapa003:8404
+      - aenms-pvhapa004:8404
+      - aenms-pvhapc001:8404
+      - aenms-pvhapc002:8404
+      - aenms-svhapa001:8404
+      - aenms-svhapa002:8404
+      - aenms-svhapc001:8404
+      - aenms-svhapc002:8404
+      - aesas-pvhapa001:9101
+      - aesas-pvhapa002:9101
+      - aesas-pvhapc001:8404
+      - aesas-pvhapc002:8404
+      - aesas-svhapa001:9101
+      - aesas-svhapa002:9101
+      - aepmm-pvhapa001:9101
+      - aepmm-pvhapa002:9101
+      - aepmm-pvhapc001:9101
+      - aepmm-pvhapc002:9101
+      - aepmm-svhapa001:9101
+      - aepmm-svhapa002:9101
+      - asnms-pvhapa001:8404
+      - asnms-pvhapa002:8404
+      - asnms-pvhapa003:8404
+      - asnms-pvhapa004:8404
+      - asnms-pvhapc001:8404
+      - asnms-pvhapc002:8404
+      - asnms-svhapa001:8404
+      - asnms-svhapa002:8404
+      - aspmm-pvhapa001:9101
+      - aspmm-pvhapa002:9101
+      - aspmm-pvhapc001:9101
+      - aspmm-pvhapc002:9101
+      - aspmm-svhapa001:9101
+      - aspmm-svhapa002:9101
+      - assas-pvhapa001:9101
+      - assas-pvhapa002:9101
+      - assas-pvhapc001:8404
+      - assas-pvhapc002:8404
+      - assas-svhapa001:9101
+      - assas-svhapa002:9101
+      - aepso-pvhapa001:9101
+      - aepso-pvhapa002:9101
+      - aepso-pvhapc001:9101
+      - aepso-pvhapc002:9101
+      - aspso-pvhapa001:9101
+      - aspso-pvhapa002:9101
+      - aspso-pvhapc001:9101
+      - aspso-pvhapc002:9101
+      - aepso-svhapa001:9101
+      - aepso-svhapa002:9101
+      - aspso-svhapa001:9101
+      - aspso-svhapa002:9101
+      labels:
+          job: 'haproxy'
+
+    - targets:
+      - aeinf-pvdir0001:9107
+      - aeinf-pvdir0002:9107
+      - aeinf-pvsmt0001:9107
+      - aeinf-pvsmt0002:9107
+      - aeinf-pvjmp0001:9107
+      - aeinf-pvmgt0001:9107
+      - aeinf-pvwsus001:9107
+      {%- for server in range(nms_app_count) %}
+      - aenms-pvappa{{ '%03d' % loop.index }}:9107
+      - asnms-pvappa{{ '%03d' % loop.index }}:9107
+      - aenms-pvappc{{ '%03d' % loop.index }}:9107
+      - asnms-pvappc{{ '%03d' % loop.index }}:9107
+      {%- endfor %}
+      {%- for server in range(sas_recognition_app_count) %}
+      - aesas-pvappa{{ '%03d' % loop.index }}:9107
+      - assas-pvappa{{ '%03d' % loop.index }}:9107
+      {%- endfor %}
+      {%- for server in range(sas_playback_app_count) %}
+      - aesas-pvplya{{ '%03d' % loop.index }}:9107
+      - assas-pvplya{{ '%03d' % loop.index }}:9107
+      {%- endfor %}
+      {%- for server in range(sas_recording_app_count) %}
+      - aesas-pvrcda{{ '%03d' % loop.index }}:9107
+      - assas-pvrcda{{ '%03d' % loop.index }}:9107
+      {%- endfor %}
+      {%- for server in range(pmm_app_count) %}
+      - aepmm-pvappa{{ '%03d' % loop.index }}:9107
+      - aspmm-pvappa{{ '%03d' % loop.index }}:9107
+      {%- endfor %}
+      - aenms-svappa001:9107
+      - aenms-svappa002:9107
+      - aepmm-svappa001:9107
+      - aepmm-svappa002:9107
+      - aepso-pvappa001:9107
+      - aepso-pvappa002:9107
+      - aspso-pvappa001:9107
+      - aspso-pvappa002:9107
+      - aepso-svappa001:9107
+      - aepso-svappa002:9107
+      - aspso-svappa001:9107
+      - aspso-svappa002:9107
+      - aesas-svappa001:9107
+      - aesas-svappa002:9107
+      - aesas-svrcda001:9107
+      - aesas-svplya001:9107
+      - aenms-pvwfpa001:9107
+      - aenms-svwfpa001:9107
+      - aesas-pvwfpa001:9107
+      - aesas-pvwfpa002:9107
+      - aesas-svwfpa001:9107
+      - asinf-pvdir0001:9107
+      - asinf-pvdir0002:9107
+      - asinf-pvsmt0001:9107
+      - asinf-pvsmt0002:9107
+      - asinf-pvmgt0001:9107
+      - asnms-pvwfpa001:9107
+      - asnms-svappa001:9107
+      - asnms-svappa002:9107
+      - asnms-svwfpa001:9107
+      - aspmm-svappa001:9107
+      - aspmm-svappa002:9107
+      - assas-pvwfpa001:9107
+      - assas-pvwfpa002:9107
+      - assas-svappa001:9107
+      - assas-svappa002:9107
+      - assas-svrcda001:9107
+      - assas-svplya001:9107
+      - assas-svwfpa001:9107
+      labels:
+          job: 'scollector'
+          kernel: windows
