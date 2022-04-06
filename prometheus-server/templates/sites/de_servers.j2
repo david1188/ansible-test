@@ -1,0 +1,166 @@
+{%- set nms_app_count = 3 %}
+{%- set sas_recognition_app_count = 3 %}
+{%- set sas_playback_app_count = 1 %}
+{%- set sas_recording_app_count = 1 %}
+{%- set pmm_app_count = 4 %}
+
+- targets:
+  - gwinf-pvmgt0001:1234
+  - gninf-pvmgt0001:1234
+  labels:
+      job: 'danubeexporter'
+
+- targets:
+  - gwinf-pvmon0001:9100
+  - gwinf-pvprm0001:9100
+  - gwinf-pvslt0001:9100
+  - gwinf-dvslt0001:9100
+  - gwinf-pvvsta001:9100
+  - gwinf-pvvsta002:9100
+  - gwinf-pvsumb001:9100
+  - gwinf-pvsumb002:9100
+  - gwnms-pvhapa001:9100
+  - gwnms-pvhapa002:9100
+  - gwnms-pvhapc001:9100
+  - gwnms-pvhapc002:9100
+  - gwnms-svhapa001:9100
+  - gwnms-svhapa002:9100
+  - gwpmm-pvhapa001:9100
+  - gwpmm-pvhapa002:9100
+  - gwpmm-svhapa001:9100
+  - gwpmm-svhapa002:9100
+  - gwsas-pvhapa001:9100
+  - gwsas-pvhapa002:9100
+  - gwsas-svhapa001:9100
+  - gwsas-svhapa002:9100
+  - gwsas-pvweba001:9100
+  - gwsas-pvweba002:9100
+  - gwsas-svweba001:9100
+  - gwsas-svweba002:9100
+  - gninf-pvslt0001:9100
+  - gninf-dvslt0001:9100
+  - gninf-pvmon0001:9100
+  - gninf-pvprm0001:9100
+  - gninf-pvvsta001:9100
+  - gninf-pvvsta002:9100
+  - gninf-pvsumb001:9100
+  - gninf-pvsumb002:9100
+  - gnnms-pvhapa001:9100
+  - gnnms-pvhapa002:9100
+  - gnnms-pvhapc001:9100
+  - gnnms-pvhapc002:9100
+  - gnnms-svhapa001:9100
+  - gnnms-svhapa002:9100
+  - gnpmm-pvhapa001:9100
+  - gnpmm-pvhapa002:9100
+  - gnpmm-svhapa001:9100
+  - gnpmm-svhapa002:9100
+  - gnsas-pvhapa001:9100
+  - gnsas-pvhapa002:9100
+  - gnsas-svhapa001:9100
+  - gnsas-svhapa002:9100
+  - gnsas-pvweba001:9100
+  - gnsas-pvweba002:9100
+  - gnsas-svweba001:9100
+  - gnsas-svweba002:9100
+  - gwinf-pvsmt0001:9100
+  - gwinf-pvsmt0002:9100
+  - gninf-pvsmt0001:9100
+  - gninf-pvsmt0002:9100
+  labels:
+      job: 'node'
+      kernel: linux
+
+- targets:
+  - gwnms-pvhapa001:8404
+  - gwnms-pvhapa002:8404
+  - gwnms-pvhapc001:8404
+  - gwnms-pvhapc002:8404
+  - gwnms-svhapa001:8404
+  - gwnms-svhapa002:8404
+  - gwnms-svhapc001:8404
+  - gwnms-svhapc002:8404
+  - gwsas-pvhapa001:9101
+  - gwsas-pvhapa002:9101
+  - gwsas-svhapa001:9101
+  - gwsas-svhapa002:9101
+  - gwpmm-pvhapa001:9101
+  - gwpmm-pvhapa002:9101
+  - gwpmm-svhapa001:9101
+  - gwpmm-svhapa002:9101
+  - gnnms-pvhapa001:8404
+  - gnnms-pvhapa002:8404
+  - gnnms-pvhapc001:8404
+  - gnnms-pvhapc002:8404
+  - gnnms-svhapa001:8404
+  - gnnms-svhapa002:8404
+  - gnpmm-pvhapa001:9101
+  - gnpmm-pvhapa002:9101
+  - gnpmm-svhapa001:9101
+  - gnpmm-svhapa002:9101
+  - gnsas-pvhapa001:9101
+  - gnsas-pvhapa002:9101
+  - gnsas-svhapa001:9101
+  - gnsas-svhapa002:9101
+  labels:
+      job: 'haproxy'
+
+- targets:
+  - gwinf-pvdir0001:9107
+  - gwinf-pvdir0002:9107
+  - gwinf-pvjmp0001:9107
+  - gwinf-pvmgt0001:9107
+  {% for server in range(nms_app_count) -%}
+  - gwnms-pvappa{{ '%03d' % loop.index }}:9107
+  - gnnms-pvappa{{ '%03d' % loop.index }}:9107
+  - gwnms-pvappc{{ '%03d' % loop.index }}:9107
+  - gnnms-pvappc{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_recognition_app_count) -%}
+  - gwsas-pvappa{{ '%03d' % loop.index }}:9107
+  - gnsas-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_playback_app_count) -%}
+  - gwsas-pvplya{{ '%03d' % loop.index }}:9107
+  - gnsas-pvplya{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(sas_recording_app_count) -%}
+  - gwsas-pvrcda{{ '%03d' % loop.index }}:9107
+  - gnsas-pvrcda{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  {% for server in range(pmm_app_count) -%}
+  - gwpmm-pvappa{{ '%03d' % loop.index }}:9107
+  - gnpmm-pvappa{{ '%03d' % loop.index }}:9107
+  {% endfor -%}
+  - gwnms-svappa001:9107
+  - gwnms-svappa002:9107
+  - gwpmm-svappa001:9107
+  - gwpmm-svappa002:9107
+  - gwsas-svappa001:9107
+  - gwsas-svappa002:9107
+  - gwsas-svrcda001:9107
+  - gwsas-svplya001:9107
+  - gwnms-pvwfpa001:9107
+  - gwnms-svwfpa001:9107
+  - gwsas-pvwfpa001:9107
+  - gwsas-pvwfpa002:9107
+  - gwsas-svwfpa001:9107
+  - gninf-pvdir0001:9107
+  - gninf-pvdir0002:9107
+  - gninf-pvmgt0001:9107
+  - gnnms-pvwfpa001:9107
+  - gnnms-svappa001:9107
+  - gnnms-svappa002:9107
+  - gnnms-svwfpa001:9107
+  - gnpmm-svappa001:9107
+  - gnpmm-svappa002:9107
+  - gnsas-pvwfpa001:9107
+  - gnsas-pvwfpa002:9107
+  - gnsas-svappa001:9107
+  - gnsas-svappa002:9107
+  - gnsas-svrcda001:9107
+  - gnsas-svplya001:9107
+  - gnsas-svwfpa001:9107
+  labels:
+      job: 'scollector'
+      kernel: windows
