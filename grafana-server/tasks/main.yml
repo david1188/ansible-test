@@ -1,0 +1,7 @@
+- import_tasks: repo.yml
+- import_tasks: vault.yml
+- import_tasks: install.yml
+- import_tasks: nginx.yml
+- import_tasks: datasources.yml
+- import_tasks: dashboards.yml
+- import_tasks: alerts.yml

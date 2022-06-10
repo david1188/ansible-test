@@ -1,0 +1,47 @@
+- name: deploy prometheus data source json
+  template:
+    src: datasources.json.j2
+    dest: /tmp/datasources.json
+    mode: 0644
+    owner: root
+    group: root
+  with_items:
+
+- name: add prometheus data source
+  uri:
+    url: https://localhost/api/datasources
+    url_username: admin
+    url_password: "{{ admin_password }}"
+    method: POST
+    force_basic_auth: yes
+    validate_certs: no
+    headers:
+      Content-Type: application/json
+    src: /tmp/datasources.json
+    remote_src: yes
+  failed_when: false
+  changed_when:
+    - "'Datasource added' in dsource.json.message"
+  register: dsource
+
+- name: "{{ item.name }}"
+  grafana_dashboard:
+    grafana_url: https://localhost
+    grafana_user: admin
+    grafana_password: admin
+    folder: "{{ item.folder }}"
+    state: present
+    path: "{{ item.path }}"
+    validate_certs: no
+  register: result
+  changed_when:
+    - result | regex_search("created")
+  failed_when:
+    - result | regex_search("No such file or directory")
+  with_items:
+    - { name: "", folder: "SAS",     path: "/tmp/*.json" }
+    - { name: "", folder: "PMM",     path: "/tmp/*.json" }
+    - { name: "", folder: "NMS",     path: "/tmp/*.json" }
+    - { name: "", folder: "PSO",     path: "/tmp/*.json" }
+    - { name: "", folder: "Windows", path: "/tmp/*.json" }
+    - { name: "", folder: "Linux",   path: "/tmp/*.json" }

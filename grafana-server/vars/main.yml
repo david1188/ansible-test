@@ -1,0 +1,51 @@
+---
+sites:
+  - site: australia
+    primary:
+      http_addr: 0.0.0.0
+      http_port: 3000
+      root_url: https://grafana-au1.nuancehdp.com
+      admin_user: admin
+      admin_password: "{{ grafana_admin_password }}"
+      bind_dn: cn=au_grafana,ou=Australia,ou=Service Accounts,dc=core,dc=local
+      bind_password: "{{ grafana_core_password }}"
+    secondary:
+      http_addr: 0.0.0.0
+      http_port: 3000
+      root_url: https://grafana-au2.nuancehdp.com
+      admin_user: admin
+      admin_password: "{{ grafana_admin_password }}"
+      bind_dn: cn=au_grafana,ou=Australia,ou=Service Accounts,dc=core,dc=local
+      bind_password: "{{ grafana_core_password }}"
+
+  - site: canada
+    primary:
+      http_addr: 0.0.0.0
+      http_port: 3000
+      root_url: https://grafana-ca1.nuancehdp.com
+      admin_user: admin
+      admin_password: "{{ grafana_admin_password }}"
+      bind_dn: cn=ccgrafana,ou=Canada,ou=Service Accounts,dc=core,dc=local
+      bind_password: "{{ grafana_core_password }}"
+    secondary:
+      http_addr: 0.0.0.0
+      http_port: 3000
+      root_url: https://grafana-ca2.nuancehdp.com
+      admin_user: admin
+      admin_password: "{{ grafana_admin_password }}"
+      bind_dn: cn=ccgrafanaa,ou=Canada,ou=Service Accounts,dc=core,dc=local
+      bind_password: "{{ grafana_core_password }}"
+
+
+admin_group_dn: CN=Grafana_Admins,OU=CORE Permissions Groups,OU=Dragon users,DC=core,DC=local
+editor_group_dn: CN=Grafana_Editors,OU=CORE Permissions Groups,OU=Dragon users,DC=core,DC=local
+search_base_dns: dc=core,dc=local
+
+grafana_folders:
+  - SAS
+  - PMM
+  - NMS
+  - PSO
+  - Windows
+  - Linux
+  - Logan

@@ -1,0 +1,51 @@
+apiVersion: 1
+
+providers:
+  - name: 'SAS dashboards'
+    folder: 'SAS'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/SAS
+
+  - name: 'NMS dashboards'
+    folder: 'NMS'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/NMS
+
+  - name: 'PMM dashboards'
+    folder: 'PMM'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/PMM
+
+  - name: 'PSO dashboards'
+    folder: 'PSO'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/PSO
+
+  - name: 'Windows dashboards'
+    folder: 'Windows'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/Windows
+
+  - name: 'Linux dashboards'
+    folder: 'Linux'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/Linux
+
+  - name: 'Logan dashboards'
+    folder: 'Logan'
+    type: file
+    updateIntervalSeconds: 10
+    options:
+      path: /var/lib/grafana/dashboards/Logan

@@ -1,0 +1,48 @@
+- name: install grafana
+  package:
+    name: grafana
+    state: present
+    update_cache: yes
+
+- name: create dashboard local directories
+  file:
+    path: /var/lib/grafana/dashboards/{{ item }}
+    state: directory
+    group: grafana
+    owner: grafana
+    mode: 0755
+  with_items:
+    - "{{ grafana_folders }}"
+
+- name: deploy grafana certificate
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0640
+  loop:
+    - { src: files/wildcard.pem.j2, dest: '/etc/pki/tls/certs/grafana.crt'}
+    - { src: files/wildcard.key.j2, dest: '/etc/pki/tls/private/grafana.key'}
+  notify:
+    - restart grafana-server
+
+- name: deploy grafana configuration
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - restart grafana-server
+
+- name: deploy ldap configuration
+  template:
+    src: ldap.toml.j2
+    dest: /etc/grafana/ldap.toml
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - restart grafana-server

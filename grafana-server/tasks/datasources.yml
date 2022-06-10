@@ -1,0 +1,21 @@
+- name: add Prometheus datasource
+  grafana_datasource:
+    name: "Prometheus"
+    url: https://localhost
+    url_username: admin
+    url_password: admin
+    ds_type: prometheus
+    ds_url: http://localhost:9090
+    access: proxy
+    validate_certs: no
+
+- name: add Loki datasource
+  grafana_datasource:
+    name: "Loki"
+    url: https://localhost
+    url_username: admin
+    url_password: admin
+    ds_type: loki
+    ds_url: http://localhost:3100
+    access: proxy
+    validate_certs: no

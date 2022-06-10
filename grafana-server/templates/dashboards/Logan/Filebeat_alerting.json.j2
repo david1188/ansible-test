@@ -1,0 +1,792 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 226,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0.5
+              ],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "3m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "for": "0m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Event:\n\nOne or more filebeat instances are down. \n\nPossible causes:\n\n- alert can be triggered by operational activities (i.e. Windows patching, DMS update)\n- service crashed\n\nAction needed:\n\nPlease check the impacted filebeat service (see labels i.e. susas-pvappa002 adaptation).\nLogs: C:\\ProgramData\\filebeat-.*\\logs\n\nIf operational activities are excluded, and no major issues in logs seen, restart the service\n\n\ntroubleshooting details: \nhttps://wiki.nuancehce.com/display/SR3/Filebeat+monitoring+and+troubleshooting",
+        "name": "Count of filebeat down by host and service alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "-h_zN57Mk"
+          },
+          {
+            "uid": "qzDByrSnk"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 24,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "min",
+        "sortDesc": false,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "avg(filebeat_up{environment=\"production\"}) by(instance, serviceID)\n",
+          "interval": "1m",
+          "legendFormat": "{{instance}} {{serviceID}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "lt",
+          "value": 0.5,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Filebeat up",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:50",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:51",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0.4
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "3m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "for": "1m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Event:\n\nCPU usage of filebeat service has increased. \n\n\nPossible causes:\n- filebeat keeps on retrying sending messages to Kafka\n- too many open file handles\n\nAction needed:\n\n- check if filebeat instances can access kafka brokers\nC:\\ProgramData\\filebeat.*\\logs\n\nhttps://discuss.elastic.co/t/filebeat-is-using-too-much-cpu/187978/4\n\n- check config yml file\n\n\n\ntroubleshooting details: \nhttps://wiki.nuancehce.com/display/SR3/Filebeat+monitoring+and+troubleshooting",
+        "name": "Avg  filebeat cpu time rate [1m]",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "-h_zN57Mk"
+          },
+          {
+            "uid": "qzDByrSnk"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "avg(rate(filebeat_cpu_time_seconds_total {environment=\"production\"}[1m])) by(instance, serviceID)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}_{{serviceID}}",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "count(rate(filebeat_cpu_time_seconds_total {environment=\"production\"}[1m])>0.6) by(instance, serviceID)",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0.4,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Avg  filebeat cpu time rate [1m] ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:54",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:55",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                150000000
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "for": "2m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Event:\nMemory consumption of one or more  filebeat service has increased. \n\n\nPossible causes:\n- too big messages \n- too many open file handles\n- filebeat cannot offload messages to kafka sink\n\nAction needed:\n\n- check filebeat log files\n- memory profiling \nhttps://discuss.elastic.co/t/filebeat-is-taking-too-much-of-memory-on-ubuntu-16/96057\n\n\ntroubleshooting details: \nhttps://wiki.nuancehce.com/display/SR3/Filebeat+monitoring+and+troubleshooting",
+        "name": "Filebeat memory allocation alert",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "-h_zN57Mk"
+          },
+          {
+            "uid": "qzDByrSnk"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "hiddenSeries": false,
+      "id": 5,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.5",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(filebeat_memstats_memory_alloc {environment=\"production\"}) by(instance, serviceID)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}_{{serviceID}}",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "exemplar": true,
+          "expr": "os",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 150000000,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Filebeat memory allocation",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:363",
+          "format": "decbytes",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:364",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "3m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "min"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "for": "1m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Event:\n\nNumber of retries to send messages to Kafka increased\n\nPossible root causes:\n\n- DNS resolution issues\n- Kafka is down\n\nAction needed:\n\n- check log files \nC:\\ProgramData\\filebeat.*\\logs\n- check the config file\n\n\n\ntroubleshooting details: \nhttps://wiki.nuancehce.com/display/SR3/Filebeat+monitoring+and+troubleshooting",
+        "name": "Avg libbeat pipeline retry rate [30s]",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "-h_zN57Mk"
+          },
+          {
+            "uid": "qzDByrSnk"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 19,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.1.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "avg by(type,instance,serviceID)(rate(filebeat_libbeat_pipeline_events {environment=\"production\", type=\"retry\"}[30s]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}_{{serviceID}}_{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Avg libbeat pipeline retry rate [30s] ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:166",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:167",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [
+                0
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "3m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "min"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "keep_state",
+        "for": "1m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "Event:\nmessages are not sent to Kafka\n\nPossible root causes:\n- DNS resolution issues\n- Kafka is down\n\nAction needed:\n\n- check log files\nC:\\ProgramData\\filebeat.*\\logs\n- check the config file\n\n\ntroubleshooting details: \nhttps://wiki.nuancehce.com/display/SR3/Filebeat+monitoring+and+troubleshooting",
+        "name": "Avg libbeat failed rate [30s]",
+        "noDataState": "keep_state",
+        "notifications": [
+          {
+            "uid": "-h_zN57Mk"
+          },
+          {
+            "uid": "qzDByrSnk"
+          }
+        ]
+      },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.1.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum by(type,instance,serviceID)(rate(filebeat_libbeat_output_events {environment=\"production\", type=\"failed\"}[30s]))",
+          "interval": "",
+          "legendFormat": "{{instance}}_{{serviceID}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 0,
+          "visible": true
+        }
+      ],
+      "timeRegions": [],
+      "title": "Avg libbeat failed rate [30s]",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:651",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:652",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "filebeat",
+    "Logan",
+    "production"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-10d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Filebeat alerting",
+  "uid": "EiQRewNGM",
+  "version": 8,
+  "weekStart": ""
+}

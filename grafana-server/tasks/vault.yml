@@ -1,0 +1,17 @@
+- name: Include Variables
+  include_vars: main.yml
+
+- name: set vault facts
+  set_fact:
+    ansible_hashi_vault_url: "https://{{ consul_address }}:8200"
+    ansible_hashi_vault_token_file: "{{ token_file_path }}"
+    ansible_hashi_vault_ca_cert: "/home/hcsre/.ssh/vault/certAuth.pem"
+    ansible_hashi_vault_validate_certs: no
+
+- name: fetch grafana secrets
+  set_fact:
+    wildcard: "{{ lookup('hashi_vault', 'secret=certs/hcsre:hapwc') }}"
+    wildcard_key: "{{ lookup('hashi_vault', 'secret=certs/hcsre:HAPWildcard-pkey') }}"
+    grafana_core_password: "{{ lookup('hashi_vault', 'secret=secrets/hcsre:grafana_core') }}"
+    grafana_admin_password: "{{ lookup('hashi_vault', 'secret=secrets/hcsre:grafana_admin') }}"
+  no_log: True

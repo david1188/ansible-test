@@ -1,0 +1,74 @@
+{% for s in sites %}
+{% if s.site == site %}
+app_mode = production
+
+[paths]
+data = /var/lib/grafana
+logs = /var/log/grafana
+
+[server]
+protocol = http
+{% if region_type == 'primary' %}
+http_addr = {{ s.primary.http_addr }}
+http_port = {{ s.primary.http_port }}
+root_url = {{ s.primary.root_url }}
+{% elif region_type == 'secondary' %}
+http_addr = {{ s.secondary.http_addr }}
+http_port = {{ s.secondary.http_port }}
+root_url = {{ s.secondary.root_url }}
+{% endif %}
+server_from_sub_path = true
+
+[database]
+type = sqlite3
+host = 127.0.0.1:3306
+name = grafana
+user = root
+password =
+path = grafana.db
+
+[session]
+provider = file
+
+[users]
+allow_sign_up = false
+allow_org_create = true
+auto_assign_org = true
+auto_assign_org_role = Viewer
+login_hint = username
+
+[auth.anonymous]
+enabled = false
+org_name = Main Org.
+org_role = Viewer
+
+[auth.basic]
+enabled = true
+
+[auth.ldap]
+enabled = true
+config_file = /etc/grafana/ldap.toml
+
+[smtp]
+enabled = true
+host = localhost:25
+user =
+password =
+from_address = admin@grafana.localhost
+
+[log]
+level = Info
+
+[dashboards.json]
+;enabled = false
+;path = /var/lib/grafana/dashboards
+
+[security]
+admin_user = admin
+{% if region_type == 'primary' %}
+admin_password = {{ s.primary.admin_password }}
+{% elif region_type == 'secondary' %}
+admin_password = {{ s.secondary.admin_password }}
+{% endif %}
+{% endif %}
+{% endfor %}

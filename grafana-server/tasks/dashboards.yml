@@ -1,0 +1,29 @@
+- name: create grafana folders
+  community.grafana.grafana_folder:
+    url: https://localhost
+    url_password: admin
+    url_username: admin
+    name: "{{ item }}"
+    state: present
+    validate_certs: no
+    with_items:
+      - "{{ grafana_folders }}"
+
+- name: deploy dashboard provisioner
+  template:
+    src: dashboard.yml.j2
+    dest: /etc/grafana/provisioning/dashboards/dashboard.yml
+    owner: grafana
+    group: grafana
+    mode: 0755
+
+- name: deploy dashboard templates
+  template:
+    src: "{{ item.src }}"
+    dest: "/var/lib/grafana/dashboards/{{ item.path | regex_replace('.j2', '') }}"
+    owner: grafana
+    group: grafana
+    mode: 0755
+  with_filetree:
+    - ../templates/dashboards/
+  when: item.state == 'file'

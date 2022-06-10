@@ -1,0 +1,439 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 224,
+  "iteration": 1654811107635,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "alertName": "Filebeat",
+        "dashboardAlerts": false,
+        "dashboardTitle": "",
+        "maxItems": 10,
+        "showOptions": "current",
+        "sortOrder": 1,
+        "stateFilter": {
+          "alerting": true,
+          "execution_error": false,
+          "no_data": false,
+          "ok": true,
+          "paused": false,
+          "pending": true
+        },
+        "tags": []
+      },
+      "pluginVersion": "8.5.5",
+      "title": "Filebeat alert status ",
+      "transparent": true,
+      "type": "alertlist"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 8,
+      "panels": [],
+      "title": "Filebeat resource usage and health",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-green",
+                "value": null
+              },
+              {
+                "color": "semi-dark-yellow",
+                "value": 0.1
+              },
+              {
+                "color": "dark-orange",
+                "value": 0.2
+              },
+              {
+                "color": "dark-red",
+                "value": 0.4
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 10,
+        "x": 0,
+        "y": 12
+      },
+      "id": 4,
+      "options": {
+        "colorByField": "Value",
+        "groupByField": "serviceID",
+        "tiling": "treemapSquarify"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "avg(rate(filebeat_cpu_time_seconds_total {location=\"[[location]]\"}[1m])) by(instance, serviceID)",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Max  1m rate filebeat cpu time seconds ",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {}
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-treemap-panel"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "dark-orange",
+                  "index": 0,
+                  "text": "no data"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 100000000
+              },
+              {
+                "color": "red",
+                "value": 150000000
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 14,
+        "x": 10,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "groupByField": "serviceID",
+        "textField": "instance",
+        "tiling": "treemapSquarify"
+      },
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum(filebeat_memstats_memory_alloc {location=\"[[location]]\"}) by(instance, serviceID)",
+          "interval": "",
+          "legendFormat": "{{instance}}_{{serviceID}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Filebeat memory allocation",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {}
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-treemap-panel"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-red",
+                  "index": 0,
+                  "text": "filebeat down"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "semi-dark-yellow",
+                  "index": 1,
+                  "text": "no data"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 2,
+      "options": {
+        "colorByField": "Value",
+        "groupByField": "serviceID",
+        "labelFields": [],
+        "sizeField": "Value",
+        "textField": "instance",
+        "tiling": "treemapSquarify"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "min(filebeat_up{location=\"[[location]]\"}) by(instance, serviceID)\n",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Filebeat up by service and host",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {}
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "transparent": true,
+      "type": "marcusolsson-treemap-panel"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "000000001"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-green",
+                  "index": 0,
+                  "text": "OK"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 23,
+        "x": 0,
+        "y": 34
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "limit": 26,
+          "values": true
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.1",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "sum by(serviceID,instance)(increase(filebeat_libbeat_output_events {location=\"[[location]]\", type=~\"retry\"}[30s]))",
+          "interval": "",
+          "legendFormat": "{{serviceID}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Mean (libbeat retry increase over 30s)",
+      "transformations": [],
+      "transparent": true,
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "Logan ",
+    "filebeat"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "westus2",
+          "value": "westus2"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "000000001"
+        },
+        "definition": "label_values({instance=~\".*pvappa.*\",  location=~\".*\"} ,location)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "location",
+        "multi": false,
+        "name": "location",
+        "options": [],
+        "query": {
+          "query": "label_values({instance=~\".*pvappa.*\",  location=~\".*\"} ,location)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Filebeat dashboard",
+  "uid": "D6zPiqMnz",
+  "version": 14,
+  "weekStart": ""
+}
