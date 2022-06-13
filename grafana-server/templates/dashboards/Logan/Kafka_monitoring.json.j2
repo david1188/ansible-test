@@ -230,7 +230,7 @@
           "expr": "sum(kafka_consumergroup_lag{topic!~\".*INFO|.*DEBUG\"} ) by (topic)",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{topic}}",
+          "legendFormat": "{{topic |  default("{{ topic}}") }}",
           "refId": "A"
         },
         {
@@ -330,7 +330,7 @@
           "exemplar": true,
           "expr": "sum(kafka_topic_partition_current_offset{topic!~\"adapter.*|__consumer.*\"}) by (topic)",
           "interval": "",
-          "legendFormat": "{{topic}}",
+          "legendFormat": "{{topic |  default("{{ topic}}") }}",
           "refId": "A"
         }
       ],
@@ -396,7 +396,7 @@
           "expr": "(sum(kafka_topic_partition_current_offset{topic!~\"adapter.*|__consumer.*\"}) by (topic))-(sum(kafka_topic_partition_oldest_offset{topic!~\"adapter.*|__consumer.*\"}) by (topic))",
           "hide": true,
           "interval": "",
-          "legendFormat": "{{topic}}",
+          "legendFormat": "{{topic |  default("{{ topic }}") }}",
           "refId": "A"
         },
         {
@@ -408,7 +408,7 @@
           "expr": "sum(rate(kafka_topic_partition_current_offset{topic!~\"adapter.*|__consumer.*\"} [1m])) by (topic)",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{topic}}",
+          "legendFormat": "{{topic |  default("{{ topic }}") }}",
           "refId": "B"
         },
         {
@@ -512,7 +512,7 @@
           "exemplar": true,
           "expr": "min(kafka_topic_partition_replicas {topic!~\"__consumer.*\"}<3) by (broker,topic, partition)",
           "interval": "",
-          "legendFormat": "{{broker}}_{{topic}}_{{partition}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}_{{topic | default("{{ topic }}")}}_{{partition | default("{{ partition }}") }}",
           "refId": "A"
         }
       ],
@@ -570,7 +570,7 @@
           "exemplar": true,
           "expr": "sum(rate(kafka_topic_partition_current_offset [1m])) by(broker)",
           "interval": "",
-          "legendFormat": "{{broker}}",
+          "legendFormat": "{{broker | default("{{ broker }}") }}",
           "refId": "A"
         }
       ],
@@ -657,7 +657,7 @@
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{broker}}_{{consumergroup}}",
+          "legendFormat": "{{broker | default("{{ broker}}") }}_{{consumergroup | default("{{ consumergroup }}") }}",
           "refId": "A"
         }
       ],
@@ -718,7 +718,7 @@
           "expr": "(sum(rate(kafka_consumergroup_current_offset{topic!~\".*DEBUG|.*INFO\"}[1m])) by (topic))/(sum(rate(kafka_topic_partition_current_offset{topic=~\".*ERROR\", topic!~\"adapter.*\"}[1m])) by (topic))",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{topic}}",
+          "legendFormat": "{{topic | default("{{ topic }}") }}",
           "refId": "A"
         }
       ],
@@ -808,7 +808,7 @@
           "exemplar": true,
           "expr": "sum(rate(kafka_consumergroup_current_offset{topic!~\".*DEBUG|.*INFO\"}[1m] )) by (broker,topic)",
           "interval": "",
-          "legendFormat": "{{broker}}_{{topic}}",
+          "legendFormat": "{{broker | default("{{ broker }}") }}_{{topic | default("{{ topic}}") }}",
           "refId": "A"
         }
       ],
@@ -894,7 +894,7 @@
           "exemplar": true,
           "expr": "sum(rate(kafka_consumergroup_lag{topic!~\".*DEBUG|.*INFO\"}[1m] )) by (broker,topic)",
           "interval": "",
-          "legendFormat": "{{broker}}_{{topic}}",
+          "legendFormat": "{{broker | default("{{ broker }}") }}_{{topic | default("{{ topic }}") }}",
           "refId": "A"
         }
       ],
@@ -1044,7 +1044,7 @@
           "expr": "kafka_topic_partition_leader_is_preferred{topic!~\"__consumer_offsets|adapter.*\"}==0",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}_{{topic}}_{{partition}}",
+          "legendFormat": "{{broker | default("{{ broker }}") }}_{{topic | default("{{ topic }}")}}_{{partition | default("{{ partition }}") }}",
           "refId": "A"
         }
       ],
@@ -1109,7 +1109,7 @@
           "exemplar": true,
           "expr": "sum(kafka_topic_partition_under_replicated_partition {topic!~\"__consumer.*\"}>0) by (broker, topic, partition)",
           "interval": "",
-          "legendFormat": "{{broker}}_{{topic}}_{{partition}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}_{{topic | default("{{ topic }}")}}_{{partition | default("{{ partition }}")}}",
           "refId": "A"
         }
       ],

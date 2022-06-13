@@ -6,8 +6,8 @@
     name: "{{ item }}"
     state: present
     validate_certs: no
-    with_items:
-      - "{{ grafana_folders }}"
+  with_items:
+    - "{{ grafana_folders }}"
 
 - name: deploy dashboard provisioner
   template:

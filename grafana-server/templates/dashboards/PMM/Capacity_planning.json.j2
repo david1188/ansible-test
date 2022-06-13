@@ -107,7 +107,7 @@
           "expr": "sum(irate(os_cpu{product='pmm',role='app',environment='production'}[5m])) by (instance)",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "",
           "refId": "A",
           "step": 300
@@ -203,7 +203,7 @@
           "expr": "sum(irate(os_cpu{product='pmm',role='app',environment='production'}[5m])) by (instance)",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "",
           "refId": "A",
           "step": 300
@@ -299,7 +299,7 @@
           "expr": "100 - os_mem_percent_free {job='scollector', product='pmm', role='app',environment='production'}",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "os_mem_percent_free",
           "refId": "A",
           "step": 300
@@ -393,7 +393,7 @@
           "expr": "100 - os_mem_percent_free {job='scollector', product='pmm', role='app',environment='production'}",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "os_mem_percent_free",
           "refId": "A",
           "step": 300
@@ -491,7 +491,7 @@
           "expr": "100 * (1 - avg by(instance)(irate(node_cpu{job='node',mode='idle',product='pmm',role='hap',environment='production'}[5m])))",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 300
         }
@@ -587,7 +587,7 @@
           "expr": "100 * (1 - avg by(instance)(irate(node_cpu{job='node',mode='idle',product='pmm',role='hap',environment='production'}[5m])))",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 300
         }
@@ -680,7 +680,7 @@
         {
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='pmm'})",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -783,7 +783,7 @@
         {
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='pmm'})",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -888,7 +888,7 @@
           "expr": "avg by (instance) (irate(node_cpu{product='pmm',mode=\"iowait\",role='hap'}[1m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -977,7 +977,7 @@
           "expr": "avg by (instance) (irate(node_cpu{product='pmm',mode=\"iowait\",role='hap'}[1m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1065,7 +1065,7 @@
         {
           "expr": "sum  by (instance) (rate(win_disk_queue{product='pmm',environment='production',disk=\"0C\", type=\"read\"}[1m]))",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1151,7 +1151,7 @@
         {
           "expr": "sum  by (instance) (rate(win_disk_queue{product='pmm',environment='production',disk=\"0C\", type='write'}[1m]))",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1243,7 +1243,7 @@
           "expr": "sum(rate(haproxy_frontend_bytes_in_total{job='haproxy', product='pmm', environment='production'}[1m])) by (instance) + sum(rate(haproxy_frontend_bytes_out_total{job='haproxy', product='pmm', environment='production'}[1m])) by (instance)",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "haproxy_backend_current_sessions",
           "refId": "A",
           "step": 300
@@ -1330,7 +1330,7 @@
           "expr": "sum(haproxy_server_current_sessions{product='pmm', environment='production'}) by (server)",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1414,7 +1414,7 @@
           "expr": "sum(haproxy_server_current_sessions{product='pmm', environment='production'}) by (server)",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1506,7 +1506,7 @@
           "hide": false,
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 300
         }
@@ -1607,7 +1607,7 @@
           "hide": false,
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 300
         }
@@ -1708,7 +1708,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{location}}",
+          "legendFormat": "{{location | default("{{ location }}")}}",
           "refId": "A",
           "step": 300
         }
@@ -1808,7 +1808,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{location}}",
+          "legendFormat": "{{location | default("{{ location }}")}}",
           "refId": "A",
           "step": 300
         }

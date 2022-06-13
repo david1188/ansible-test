@@ -135,7 +135,7 @@
           "exemplar": true,
           "expr": "avg(rate(filebeat_cpu_time_seconds_total {location=\"[[location]]\"}[1m])) by(instance, serviceID)",
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance}}") }}",
           "refId": "A"
         }
       ],
@@ -214,7 +214,7 @@
           "exemplar": true,
           "expr": "sum(filebeat_memstats_memory_alloc {location=\"[[location]]\"}) by(instance, serviceID)",
           "interval": "",
-          "legendFormat": "{{instance}}_{{serviceID}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}_{{serviceID| default("{{ serviceID }}")}}",
           "refId": "A"
         }
       ],
@@ -297,7 +297,7 @@
           "exemplar": true,
           "expr": "min(filebeat_up{location=\"[[location]]\"}) by(instance, serviceID)\n",
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}") }}",
           "refId": "A"
         }
       ],
@@ -378,7 +378,7 @@
           "exemplar": true,
           "expr": "sum by(serviceID,instance)(increase(filebeat_libbeat_output_events {location=\"[[location]]\", type=~\"retry\"}[30s]))",
           "interval": "",
-          "legendFormat": "{{serviceID}}",
+          "legendFormat": "{{serviceID | default("{{ serviceID }}") }}",
           "refId": "A"
         }
       ],

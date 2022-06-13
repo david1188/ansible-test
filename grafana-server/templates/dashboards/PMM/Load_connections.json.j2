@@ -107,7 +107,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{location}}",
+          "legendFormat": "{{location | | default("{{ location }}")}}",
           "refId": "A",
           "step": 90
         }
@@ -248,7 +248,7 @@
           "hide": false,
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | | default("{{ instance }}")}}",
           "refId": "A",
           "step": 90
         }
@@ -384,7 +384,7 @@
           "expr": "sum(haproxy_frontend_current_sessions{product='pmm', environment='production'}) by (instance)",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 2
         }
@@ -519,7 +519,7 @@
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='pmm'})",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 2
         }
@@ -623,7 +623,7 @@
           "expr": "100 - (avg by (instance) (irate(node_cpu{job=\"node\",mode=\"idle\",product='pmm', role='hap',environment='production'}[5m])) * 100)",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 2
         }
@@ -719,7 +719,7 @@
           "expr": " sum(irate(haproxy_frontend_http_requests_total{product='pmm', environment='production'}[1m])) by (instance)",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 2
         }
@@ -813,7 +813,7 @@
           "expr": "(irate(os_cpu{product='pmm', role='app',environment='production'}[5m]))",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "cpu",
           "refId": "A",
           "step": 2

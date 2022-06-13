@@ -108,7 +108,7 @@
           "expr": "sum(irate(os_cpu{product='nms',role='app',environment='production'}[5m])) by (instance)",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}") }}",
           "metric": "",
           "refId": "A",
           "step": 30
@@ -205,7 +205,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance default("{{ instance }}")}}",
           "metric": "",
           "refId": "A",
           "step": 30
@@ -299,7 +299,7 @@
           "expr": "100 - os_mem_percent_free {job='scollector', product='nms', role='app',environment='production'}",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "os_mem_percent_free",
           "refId": "A",
           "step": 90
@@ -393,7 +393,7 @@
           "expr": "100 - os_mem_percent_free {job='scollector', product='nms', role='app',environment='production'}",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "os_mem_percent_free",
           "refId": "A",
           "step": 90
@@ -492,7 +492,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 30
         }
@@ -589,7 +589,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 30
         }
@@ -681,7 +681,7 @@
         {
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='nms'})",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -785,7 +785,7 @@
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='nms'})",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -939,7 +939,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 90
         }
@@ -1039,7 +1039,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 90
         }
@@ -1132,7 +1132,7 @@
           "expr": "avg by (instance) (irate(node_cpu{product='nms',mode=\"iowait\",role='hap'}[1m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -1220,7 +1220,7 @@
           "expr": "avg by (instance) (irate(node_cpu{product='nms',mode=\"iowait\",role='hap'}[1m])) * 100",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ instance }}",
+          "legendFormat": "{{ instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -1309,7 +1309,7 @@
           "expr": "sum  by (type) (rate(win_disk_queue{product='nms',environment='production',disk=\"0C\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{type}}",
+          "legendFormat": "{{type | default("{{ type }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -1398,7 +1398,7 @@
           "expr": "sum  by (type) (rate(win_disk_queue{product='nms',environment='production',disk=\"0C\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{type}}",
+          "legendFormat": "{{type | default("{{ type }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -1495,7 +1495,7 @@
           "expr": "sum(rate(haproxy_frontend_bytes_in_total{job='haproxy', product='nms', environment='production'}[1m])) by (instance) + sum(rate(haproxy_frontend_bytes_out_total{job='haproxy', product='nms', environment='production'}[1m])) by (instance)",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "haproxy_backend_current_sessions",
           "refId": "A",
           "step": 90
@@ -1582,7 +1582,7 @@
           "expr": "sum  by (type) (rate(win_disk_queue{product='nms',environment='production',role='wfp', disk='4F'}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{type}}",
+          "legendFormat": "{{type | default("{{ type }}")}}",
           "refId": "A",
           "step": 4
         }
@@ -1666,7 +1666,7 @@
           "expr": "sum  by (type) (rate(win_disk_queue{product='nms',environment='production',role='wfp', disk='4F'}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{type}}",
+          "legendFormat": "{{type | default("{{ type }}")}}",
           "refId": "A",
           "step": 4
         }

@@ -105,7 +105,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{ location }}",
+          "legendFormat": "{{ location | default("{{ location }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -191,7 +191,7 @@
         {
           "expr": "sum(haproxy_frontend_current_sessions{product='sas', environment='production'}) by (instance)",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -356,7 +356,7 @@
         {
           "expr": "sum(haproxy_frontend_current_sessions{product='sas', environment='production'}) by (instance)",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -452,7 +452,7 @@
           "expr": "100 - (avg by (instance) (irate(node_cpu{job=\"node\",mode=\"idle\",product='sas', role='hap',environment='production'}[5m])) * 100)",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -548,7 +548,7 @@
           "expr": "100 - (avg by (instance) (irate(node_cpu{job=\"node\",mode=\"idle\",product='sas', role='hap',environment='production'}[5m])) * 100)",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -640,7 +640,7 @@
         {
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='sas'})",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -743,7 +743,7 @@
         {
           "expr": "sum by (instance)(node_load1{job='node', role='hap',environment='production', product='sas'})",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -851,7 +851,7 @@
           "expr": " sum(irate(haproxy_frontend_http_requests_total{product='sas', environment='production'}[1m])) by (instance)",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }
@@ -946,7 +946,7 @@
           "expr": "(irate(os_cpu{product='sas', role='app',environment='production'}[5m]))",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "cpu",
           "refId": "A",
           "step": 10
@@ -1045,7 +1045,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 90
         }
@@ -1135,7 +1135,7 @@
         {
           "expr": "haproxy_frontend_max_sessions{product='sas'}",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 10
         }

@@ -86,7 +86,7 @@
           "expr": "100-( node_filesystem_avail{mountpoint=~\".*data_disk.*\"}/ node_filesystem_size{mountpoint=~\".*data_disk.*\"})*100",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}  {{mountpoint}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}  {{mountpoint| default("{{ mountpoint }}")}}",
           "refId": "B"
         }
       ],
@@ -185,7 +185,7 @@
           "expr": "100-( node_filesystem_avail{mountpoint=~\".*data_disk.*\"}/ node_filesystem_size{mountpoint=~\".*data_disk.*\"})*100",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}  {{mountpoint}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}  {{mountpoint| default("{{ mountpoint }}")}}",
           "refId": "B"
         }
       ],
@@ -279,7 +279,7 @@
           "exemplar": true,
           "expr": "avg_over_time(node_load1{job='node', broker=~\".*w.*\"}[5m])",
           "interval": "",
-          "legendFormat": "{{broker}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}",
           "refId": "A"
         },
         {
@@ -415,7 +415,7 @@
           "exemplar": true,
           "expr": "100 - (avg by (broker) (rate(node_cpu{job=\"node\",mode=\"idle\",broker=~\".*w.*\"}[5m])) * 100)",
           "interval": "",
-          "legendFormat": "{{broker}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}",
           "refId": "A"
         }
       ],
@@ -519,7 +519,7 @@
           "expr": "rate(node_disk_read_time_ms{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])/rate(node_disk_reads_completed{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])",
           "hide": true,
           "interval": "",
-          "legendFormat": "{{broker}} {{device}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}} {{device | default("{{ device }}")}}",
           "refId": "A"
         },
         {
@@ -527,7 +527,7 @@
           "expr": "(node_memory_MemTotal{broker=~\"wn.*\"}-node_memory_MemAvailable{broker=~\"wn.*\"})*100/node_memory_MemTotal{broker=~\"wn.*\"}",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}",
+          "legendFormat": "{{broker |  default("{{ broker}}") }}",
           "refId": "B"
         }
       ],
@@ -622,7 +622,7 @@
           "expr": "(node_memory_Cached{broker=~\"wn.*\"})*100/node_memory_MemTotal{broker=~\"wn.*\"}",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}}",
           "refId": "B"
         },
         {
@@ -725,7 +725,7 @@
           "exemplar": true,
           "expr": "rate(node_network_receive_bytes{broker=~\"wn.*\", device=\"eth0\"}[5m])",
           "interval": "",
-          "legendFormat": "{{broker}}-in",
+          "legendFormat": "{{broker | default("{{ broker }}")}}-in",
           "refId": "A"
         },
         {
@@ -737,7 +737,7 @@
           "expr": "rate(node_network_transmit_bytes{broker=~\"wn.*\", device=\"eth0\"}[5m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}}-out",
+          "legendFormat": "{{broker | default("{{ broker }}")}}-out",
           "refId": "B"
         }
       ],
@@ -829,7 +829,7 @@
           "expr": "rate(node_disk_io_time_ms{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{broker}} {{device}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}} {{device | default("{{ device }}")}}",
           "refId": "A"
         }
       ],
@@ -922,7 +922,7 @@
           "exemplar": true,
           "expr": "rate(node_disk_read_time_ms{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])/rate(node_disk_reads_completed{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])",
           "interval": "",
-          "legendFormat": "{{broker}} {{device}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}} {{device | default("{{ device }}")}}",
           "refId": "A"
         }
       ],
@@ -1013,7 +1013,7 @@
           "exemplar": true,
           "expr": "rate(node_disk_write_time_ms{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])/rate(node_disk_writes_completed{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])",
           "interval": "",
-          "legendFormat": "{{broker}} {{device}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}} {{device | default("{{ device }}")}}",
           "refId": "A"
         }
       ],
@@ -1108,7 +1108,7 @@
           "exemplar": true,
           "expr": "rate(node_disk_read_time_ms{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])/rate(node_disk_reads_completed{broker=~\"wn.*\", device=~\"sda|sdb\"}[1m])",
           "interval": "",
-          "legendFormat": "{{broker}} {{device}}",
+          "legendFormat": "{{broker | default("{{ broker }}")}} {{device | default("{{ device }}")}}",
           "refId": "A"
         }
       ],

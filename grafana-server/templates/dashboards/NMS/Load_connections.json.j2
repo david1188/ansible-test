@@ -101,7 +101,7 @@
           "expr": "sum by (code) (irate(haproxy_frontend_http_responses_total{product='nms', code='5xx', environment='production'}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ code }}",
+          "legendFormat": "{{ code | default("{{ code }}")}}",
           "refId": "A"
         }
       ],
@@ -184,7 +184,7 @@
           "expr": "sum by (frontend) (irate(haproxy_frontend_http_responses_total{product='nms', code='5xx', environment='production'}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ frontend }}",
+          "legendFormat": "{{ frontend | default("{{ frontend }}")}}",
           "refId": "A"
         }
       ],
@@ -269,7 +269,7 @@
           "expr": "sum(haproxy_frontend_current_sessions{instance=~\".*nms-pvhap.*\"}) by (instance)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}") }}",
           "refId": "B"
         }
       ],
@@ -353,7 +353,7 @@
           "expr": "sum by (code) (irate(haproxy_frontend_http_responses_total{product='nms', environment='production', frontend='nms-8731'}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{ code }}",
+          "legendFormat": "{{ code | default("{{ code }}") }}",
           "refId": "A"
         }
       ],
@@ -438,7 +438,7 @@
           "expr": "sum(haproxy_frontend_current_sessions{instance=~\".*nms-pvhapa.*\"}) by (instance)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | | default("{{ instance }}")}}",
           "refId": "B"
         }
       ],
@@ -524,7 +524,7 @@
           "expr": "sum(haproxy_frontend_current_sessions{instance=~\".*nms-pvhapc.*\"}) by (instance)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | | default("{{ instance }}")}}",
           "refId": "B"
         }
       ],
@@ -613,7 +613,7 @@
           "expr": "sum (haproxy_frontend_current_sessions{instance=~\".*nms-pvhap.*\"}) by (location)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{location}}",
+          "legendFormat": "{{location | default("{{ location }}")}}",
           "refId": "B"
         }
       ],
@@ -708,7 +708,7 @@
           "format": "time_series",
           "interval": "1m",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 60
         }
@@ -799,7 +799,7 @@
           "format": "time_series",
           "interval": "1m",
           "intervalFactor": 1,
-          "legendFormat": "{{server}}",
+          "legendFormat": "{{server | default("{{ server }}")}}",
           "refId": "A",
           "step": 60
         }
@@ -895,7 +895,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "NC {{code}}",
+          "legendFormat": "NC {{code | default("{{ code }}")}}",
           "refId": "A",
           "step": 60
         },
@@ -905,7 +905,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "UE {{code}}",
+          "legendFormat": "UE {{code | default("{{ code }}")}}",
           "refId": "B",
           "step": 60
         },
@@ -914,7 +914,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
-          "legendFormat": "UW {{code}}",
+          "legendFormat": "UW {{code | default("{{ code }}")}}",
           "refId": "C"
         }
       ],
@@ -1005,7 +1005,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{ location }}",
+          "legendFormat": "{{ location | default("{{ location }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1094,7 +1094,7 @@
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{ location }}",
+          "legendFormat": "{{ location | default("{{ location }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1187,7 +1187,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1316,7 +1316,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | | default("{{ instance }}")}}",
           "refId": "A",
           "step": 600
         }
@@ -1420,7 +1420,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}") }}",
           "refId": "A",
           "step": 600
         }
@@ -1551,7 +1551,7 @@
           "expr": "sum by (instance)(node_load1{job='node', instance=~\".*nms-pvhap.*\"})",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "B"
         }
       ],
@@ -1652,7 +1652,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "metric": "cpu",
           "refId": "A",
           "step": 600
@@ -1748,7 +1748,7 @@
           "format": "time_series",
           "interval": "30s",
           "intervalFactor": 3,
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}",
           "refId": "A",
           "step": 300
         }

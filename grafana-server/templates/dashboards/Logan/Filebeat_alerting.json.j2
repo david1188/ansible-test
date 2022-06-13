@@ -127,7 +127,7 @@
           "exemplar": true,
           "expr": "avg(filebeat_up{environment=\"production\"}) by(instance, serviceID)\n",
           "interval": "1m",
-          "legendFormat": "{{instance}} {{serviceID}}",
+          "legendFormat": "{{ instance | default("{{ instance }}")}} {{serviceID | default("{{serviceID}}") }}",
           "refId": "A"
         }
       ],
@@ -268,7 +268,7 @@
           "expr": "avg(rate(filebeat_cpu_time_seconds_total {environment=\"production\"}[1m])) by(instance, serviceID)",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{instance}}_{{serviceID}}",
+          "legendFormat": "{{instance | default("{{ instance }}") }}_{{serviceID | default("{{ serviceID}}") }}",
           "refId": "A"
         },
         {
@@ -422,7 +422,7 @@
           "expr": "sum(filebeat_memstats_memory_alloc {environment=\"production\"}) by(instance, serviceID)",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{instance}}_{{serviceID}}",
+          "legendFormat": "{{instance | default("{{ instance }}")}}_{{serviceID | default("{{ serviceID}}") }}",
           "refId": "A"
         },
         {
@@ -581,7 +581,7 @@
           "expr": "avg by(type,instance,serviceID)(rate(filebeat_libbeat_pipeline_events {environment=\"production\", type=\"retry\"}[30s]))",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{instance}}_{{serviceID}}_{{type}}",
+          "legendFormat": "{{instance | default("{{ instance}}") }}_{{serviceID | default("{{ serviceID}}") }}_{{type | default("{{ type }}")}}",
           "refId": "A"
         }
       ],
@@ -721,7 +721,7 @@
           "exemplar": true,
           "expr": "sum by(type,instance,serviceID)(rate(filebeat_libbeat_output_events {environment=\"production\", type=\"failed\"}[30s]))",
           "interval": "",
-          "legendFormat": "{{instance}}_{{serviceID}}",
+          "legendFormat": "{{instance |  default("{{ instance}}") }}_{{serviceID | default("{{ serviceID}}") }}",
           "refId": "A"
         }
       ],
