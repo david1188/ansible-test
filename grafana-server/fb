@@ -1,0 +1,86 @@
+###################### Filebeat Configuration Example #########################
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+filebeat.inputs:
+- enabled: true
+  exclude_lines:
+  - WriteHeader
+  multiline.match: after
+  multiline.negate: true
+  multiline.pattern: ^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\.\d{3}
+  paths:
+  - d:\sas\logs\*\*\NuanceSpeechAnywhereModelOptimizationService_2*.log
+  type: log
+http:
+  enabled: true
+  host: localhost
+  port: 5086
+output.kafka:
+#  ssl.certificate_authorities: 'C:\Program Files\Filebeat\root.crt'
+#  ssl.certificate: 'C:\Program Files\Filebeat\{{ ansible_hostname }}.crt'
+#  ssl.key: 'C:\Program Files\Filebeat\{{ ansible_hostname }}.key'
+  hosts:
+  {% if dmo_site == "us" and (environment_type == "staging" or "qa" or "qap" or "qag") -%}
+  - wn0-ueinfs.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn1-ueinfs.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn2-ueinfs.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn3-ueinfs.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  {% elif dmo_site == "us" and environment_type == "production" -%}
+  - wn0-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn1-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn2-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  - wn3-ueinfp.vsngtqnnbpfeziproo23ub5lgd.bx.internal.cloudapp.net:9092
+  {% elif dmo_site == "uk" and environment_type == "staging" -%}
+  - wn0-uksstg.nnlxfct0hire5hcnm1xso1jtxe.zx.internal.cloudapp.net:9092
+  - wn1-uksstg.nnlxfct0hire5hcnm1xso1jtxe.zx.internal.cloudapp.net:9092
+  - wn2-uksstg.nnlxfct0hire5hcnm1xso1jtxe.zx.internal.cloudapp.net:9092
+  - wn3-uksstg.nnlxfct0hire5hcnm1xso1jtxe.zx.internal.cloudapp.net:9092
+  {% elif dmo_site == "uk" and environment_type == "production" -%}
+  - wn0-uksprd.dzuqqsrm3q5erigcnhvyl2sxcb.zx.internal.cloudapp.net:9092
+  - wn1-uksprd.dzuqqsrm3q5erigcnhvyl2sxcb.zx.internal.cloudapp.net:9092
+  - wn2-uksprd.dzuqqsrm3q5erigcnhvyl2sxcb.zx.internal.cloudapp.net:9092
+  - wn3-uksprd.dzuqqsrm3q5erigcnhvyl2sxcb.zx.internal.cloudapp.net:9092
+  {% endif -%}
+  metadata:
+    compression: snappy
+  topic: '%{[serviceID]}Logs-UNKNOWN'
+  topics:
+  - topic: '%{[serviceID]}Logs-%{[severity]}'
+    when.contains:
+      severity: DEBUG
+  - topic: '%{[serviceID]}Logs-%{[severity]}'
+    when.contains:
+      severity: INFO
+  - topic: '%{[serviceID]}Logs-%{[severity]}'
+    when.contains:
+      severity: WARN
+  - topic: '%{[serviceID]}Logs-%{[severity]}'
+    when.contains:
+      severity: ERROR
+  - topic: '%{[serviceID]}Logs-%{[severity]}'
+    when.contains:
+      severity: FATAL
+processors:
+- dissect:
+    target_prefix: ''
+    tokenizer: "%{evtime}\t[%{thread}]\t[%{session}]\t%{severity}\t%{component}\t%{func}\t%{text}"
+    trim_values: all
+- drop_fields:
+    fields:
+    - '@metadata'
+    - message
+    - ecs
+    - agent
+    - input
+    ignore_missing: true
+- add_fields:
+    fields:
+    {% if dmo_site == "us" and (environment_type == "staging" or "production") -%}
+      serviceID: adaptation
+    {% elif dmo_site == "us" and (environment_type == "qa" or "qap" or "qag") -%}
+      serviceID: "{{ environment_type }}adaptation"
+    {% endif -%}
+    target: ''
+
